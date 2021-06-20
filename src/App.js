@@ -23,6 +23,8 @@ import Mobile from './panels/Mobile';
 import './panels/Persik.css';
 
 import logo from './img/PNG2.png';
+import logo2 from './img/logo.png';
+
 
 const crypto = require('crypto');
 import API from './api';
@@ -134,6 +136,8 @@ const sheme = function () {
 	// document.querySelector('meta[name="msapplication-TileColor"]').setAttribute("content","#000");
 	// document.querySelector('meta[name="theme-color"]').setAttribute("content","#000");
 	// document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]').setAttribute("content","black");
+	document.querySelector('link[rel="icon"]').setAttribute("href",logo2);
+	document.querySelector('link[rel="apple-touch-icon"]').setAttribute("href",logo2);
 
 };
 
