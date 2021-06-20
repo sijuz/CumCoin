@@ -1,0 +1,35 @@
+stages:
+  - build
+  - deploy
+
+build:
+  image: node:latest    
+  stage: build
+  variables: 
+    # Replace this with your site URL
+    PUBLIC_URL: https://fullw0rk.gitlab.io/cum_coin_front/  
+
+  script:
+    - npm i
+    - npm run build
+
+  artifacts:
+    paths:
+      - build/     
+
+  only:
+    - master
+
+pages:
+  image: alpine:latest
+  stage: deploy
+  variables:
+    GIT_STRATEGY: none        # Do not clone git repo
+  script:
+    # Rename the CRA `build` folder to `public`
+    - mv build public         
+  artifacts:
+    paths:
+      - public  
+  only:
+    - master
