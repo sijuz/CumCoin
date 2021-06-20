@@ -1,11 +1,8 @@
 import React from 'react';
-import Panel from '@vkontakte/vkui/dist/components/Panel/Panel';
 import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader';
 import './Persik.css';
 import Icon56ErrorOutline from '@vkontakte/icons/dist/56/error_outline';
-import Placeholder from "@vkontakte/vkui/dist/components/Placeholder/Placeholder";
-import Div from "@vkontakte/vkui/dist/components/Div/Div";
-import {Group} from "@vkontakte/vkui";
+import {Group, Panel, Placeholder, Div} from "@vkontakte/vkui";
 
 
 const Persik = props => (

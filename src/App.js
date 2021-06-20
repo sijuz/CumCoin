@@ -64,7 +64,7 @@ import {
 	Title,
 	Separator,
 	Platform,
-	PanelHeaderButton, Banner, FormLayout, FormLayoutGroup, Radio, Input, FormItem, FormStatus, Snackbar, Link, Footer
+	PanelHeaderButton, Banner, FormLayout, FormLayoutGroup, Radio, Input, FormItem, FormStatus, Snackbar, Link, Footer, Avatar
 } from "@vkontakte/vkui";
 import {
 	Icon24MoneyTransferOutline, Icon28AddCircleOutline, Icon28ArrowUpCircleOutline,
@@ -76,7 +76,6 @@ import {
 	Icon28UserCircleOutline, Icon28UserOutline, Icon28Users3Outline, Icon28WalletOutline, Icon28WristWatchOutline
 } from "@vkontakte/icons";
 import {createChart, CrosshairMode,isBusinessDay} from "lightweight-charts";
-import Avatar from "@vkontakte/vkui/dist/components/Avatar/Avatar";
 import rub from './img/rub.png';
 
 
