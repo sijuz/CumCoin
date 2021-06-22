@@ -296,6 +296,7 @@ const App = withAdaptivity(({ viewWidth }) => {
 					network: 'binance',
 					chainId: 56,
 					infuraId: "774b1e4252de48c3997d66ac5f5078d8",
+					bridge: "https://polygon.bridge.walletconnect.org"
 				},
 			},
 			// torus: {
