@@ -52,7 +52,7 @@ import TradingViewWidget, { Themes } from 'react-tradingview-widget';
 
 import { createChart } from 'lightweight-charts';
 
-import rub from '../img/rub.png';
+
 import logo from "../img/PNG2.png";
 
 
@@ -84,7 +84,13 @@ const Home = props => (
 				<Div>
 
 					<Title weight="heavy" level="1">Exchange</Title>
-					<small>Comming soon...</small>
+					<br />
+					{/*<small>Comming soon...</small>*/}
+
+					<div style={{textAlign: "center"}}>
+					<iframe src="https://exchange.pancakeswap.finance/#/swap?outputCurrency=0xeE658f96F8D45085a9eC6Cb9c917d4875EF28987" frameBorder="0" width="400" style={{borderRadius: 20}}
+							height="900" />
+					</div>
 				</Div>
 				:
 

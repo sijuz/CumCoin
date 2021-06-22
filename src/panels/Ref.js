@@ -41,6 +41,7 @@ function getRandomInt(max) {
 
 const Top = props => (
 	<Panel id={props.id}>
+		{props.isDesktop ?
 		<PanelHeader
 			id="topm"
 			separator={props.isDesktop}
@@ -49,6 +50,7 @@ const Top = props => (
 		>
 
 		</PanelHeader>
+			: "" }
 		<Group style={{minHeight: '20vh'}}>
 			<Div>
 				<p style={{textAlign: "center",margin: 0}}>
@@ -64,7 +66,7 @@ const Top = props => (
 				<br />
 				<Button
 					mode="outline"
-					size="l" before={<Icon28InfoOutline  />} stretched >Manual connect</Button>
+					size="l" before={<Icon28InfoOutline  />} stretched onClick={()=>props.setActiveModal("info")}>Manual connect</Button>
 				<br />
 				<Button
 					mode="outline"

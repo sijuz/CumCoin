@@ -78,6 +78,7 @@ const Top = props => (
 					<Card>
 						<Cell
 							description="BEP20"
+							onClick={()=>props.setActiveModal("wallet")}
 							after={props.address ? props.address.substr(0, 4)+"..."+props.address.substr(props.address.length-4, props.address.length-1) : ""}
 							before={
 								<Avatar src={"https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/MetaMask_Fox.svg/1200px-MetaMask_Fox.svg.png"} size={28} />

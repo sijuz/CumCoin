@@ -28,15 +28,48 @@ import {
 } from "@vkontakte/vkui";
 import {
 	Icon24LogoTwitter, Icon24Send,
-	Icon28ChevronBack, Icon28DoorArrowLeftOutline, Icon28LockOpenOutline,
+	Icon28ChevronBack, Icon28CopyOutline, Icon28DoorArrowLeftOutline, Icon28GiftOutline, Icon28LockOpenOutline,
 	Icon28LogoVk,
 	Icon28RefreshOutline, Icon28SyncOutline,
 	Icon56CheckCircleOutline,
 	Icon56Users3Outline
 } from "@vkontakte/icons";
-import logo from "../img/PNG2.png";
-// import TwitterLogin from "react-twitter-login";
+import {CopyToClipboard} from "react-copy-to-clipboard/lib/Component";
+import {
+	FacebookMessengerShareButton,
+	FacebookShareButton, RedditShareButton,
+	TelegramShareButton,
+	TwitterShareButton, VKShareButton,
+	WhatsappShareButton
+} from "react-share";
 
+import {
+	EmailIcon,
+	FacebookIcon,
+	FacebookMessengerIcon,
+	HatenaIcon,
+	InstapaperIcon,
+	LineIcon,
+	LinkedinIcon,
+	LivejournalIcon,
+	MailruIcon,
+	OKIcon,
+	PinterestIcon,
+	PocketIcon,
+	RedditIcon,
+	TelegramIcon,
+	TumblrIcon,
+	TwitterIcon,
+	ViberIcon,
+	VKIcon,
+	WeiboIcon,
+	WhatsappIcon,
+	WorkplaceIcon
+} from "react-share";
+
+// import TwitterLogin from "react-twitter-login";
+import logo from "../img/logo.png";
+import logo2 from "../img/PNG2.png";
 
 function getRandomInt(max) {
 	return Math.floor(Math.random() * Math.floor(max));
@@ -48,6 +81,7 @@ const authHandler = (err, data) => {
 
 const handleTelegramResponse = response => {
 	console.log("TG:",response);
+
 };
 
 
@@ -68,7 +102,7 @@ const Top = props => (
 		>
 			{props.isDesktop ? null :
 				<p style={{textAlign: "center", width: "95vw"}}>
-					<img src={logo} width="80px" alt=""/>
+					<img src={logo2} width="80px" alt=""/>
 				</p>
 			}
 		</PanelHeader>
@@ -96,15 +130,24 @@ const Top = props => (
 					{/*	accessTokenUrl={"1"}*/}
 					{/*/>*/}
 
-					<TelegramLoginButton dataOnauth={handleTelegramResponse} botName="cum_coin_airdrop_bot" />
 
-					<Button size={"l"}   before={<Icon24Send   />} mode="commerce" id="telegramButton">Telegram</Button>
+					{props.userTG ?
+						<Button size={"l"} before={<Icon24Send/>} mode="commerce" target="_blank" href="https://t.me/cumcoinlive">Telegram subscribe</Button>
+						:
+						<div className="bot2">
+							<TelegramLoginButton dataOnauth={(res) => {
+								props.setuserTG(res)
+							}} botName="cum_coin_airdrop_bot"/>
+						</div>
+					}
+
+					{/*<Button size={"l"}   before={<Icon24Send   />} mode="commerce" id="telegramButton">Telegram</Button>*/}
 					<p />
-					<Button size={"l"}   before={<Icon24LogoTwitter  />} mode="commerce" >Twitter</Button>
+					<Button size={"l"}   before={<Icon24LogoTwitter  />} mode="commerce" target="_blank" href="https://twitter.com/CUMCoinTeam" >Twitter subscribe</Button>
 					<p />
 					{props.ConnectedWEB3 ?
 
-						<Button size={"l"} stretched before={<Icon28SyncOutline/>} disabled>Get 100 CUM</Button>
+						<Button size={"l"} stretched before={<Icon28GiftOutline />} disabled={!props.userTG}>Get 100 CUM</Button>
 						:
 						<Button size={"l"} stretched before={<Icon28LockOpenOutline />} onClick={props.loginWEB3}>Unlock Wallet</Button>
 					}
@@ -140,9 +183,66 @@ const Top = props => (
 				marginBottom: 0,
 				paddingBottom: 0
 			}}>Invite people to airdrop on your referral link and get 50 CUM for 1 referral</p>
-			<FormItem >
-				<Input type="text" value={"https://cumcointeam.finance#"+ (props.userInfo ? props.userInfo.id : 0)} align="center" />
-			</FormItem>
+
+				<br />
+				<Input type="text" value={"https://app.cumcointeam.finance#"+ (props.userInfo ? props.userInfo.id : 0)} align="center" />
+			<br />
+			<CopyToClipboard text={"https://app.cumcointeam.finance#"+ (props.userInfo ? props.userInfo.id : 0)}
+							 onCopy={props.onCopy}>
+				<Button
+					mode="outline"
+					size="l" stretched before={<Icon28CopyOutline  />}>{props.copyText} Link</Button>
+			</CopyToClipboard>
+				<br />
+				<div style={{display: "flex", justifyContent: "space-between", width: "60%", margin: "0 auto"}}>
+					<FacebookShareButton
+						url={"https://app.cumcointeam.finance#"+ (props.userInfo ? props.userInfo.id : 0)}
+						quote={"CUM Coin AirDrop"}
+						className="Demo__some-network__share-button"
+					>
+						<FacebookIcon size={32} round />
+					</FacebookShareButton>
+					<TwitterShareButton
+						url={"https://app.cumcointeam.finance#"+ (props.userInfo ? props.userInfo.id : 0)}
+						title={"CUM Coin AirDrop"}
+						className="Demo__some-network__share-button"
+					>
+						<TwitterIcon size={32} round />
+					</TwitterShareButton>
+					<TelegramShareButton
+						url={"https://app.cumcointeam.finance#"+ (props.userInfo ? props.userInfo.id : 0)}
+						title={"CUM Coin AirDrop"}
+						className="Demo__some-network__share-button"
+					>
+						<TelegramIcon size={32} round />
+					</TelegramShareButton>
+					<RedditShareButton
+						url={"https://app.cumcointeam.finance#"+ (props.userInfo ? props.userInfo.id : 0)}
+						title={"CUM Coin AirDrop"}
+						windowWidth={660}
+						windowHeight={460}
+						className="Demo__some-network__share-button"
+					>
+						<RedditIcon size={32} round />
+					</RedditShareButton>
+					<WhatsappShareButton
+						url={"https://app.cumcointeam.finance#"+ (props.userInfo ? props.userInfo.id : 0)}
+						title={"CUM Coin AirDrop"}
+						separator=":: "
+						className="Demo__some-network__share-button"
+					>
+						<WhatsappIcon size={32} round />
+					</WhatsappShareButton>
+					<VKShareButton
+						url={"https://app.cumcointeam.finance#"+ (props.userInfo ? props.userInfo.id : 0)}
+						image={`${String(window.location)}/${logo}`}
+						className="Demo__some-network__share-button"
+					>
+						<VKIcon size={32} round />
+					</VKShareButton>
+				</div>
+				<br />
+
 
 
 				<CardGrid size="m">

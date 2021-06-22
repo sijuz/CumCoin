@@ -1,4 +1,7 @@
 
+body {
+  background-color: #151325!important;
+}
 body::after {
   display: block;
   position: fixed;
@@ -41,10 +44,10 @@ body[scheme="space_gray"] {
 
   /*backdrop-filter: blur(40px)!important;*/
   /*border-radius: 20px!important;*/
-  background: transparent!important;
+  background: #151325!important;
 }
 #nottt .PanelHeader__in{
-  background: transparent!important;
+  background: #151325!important;
   /*backdrop-filter: none!important;*/
   /*padding-top: 12px;*/
 }
@@ -73,21 +76,29 @@ body[scheme="space_gray"] {
     /*backdrop-filter: none!important;*/
     /*padding-top: 12px;*/
   }
+  body::after {
+    opacity: 0!important;
+  }
 
 }
 
 .SplitLayout--ios .SplitLayout__inner--header {
-  margin-top: calc(-1* calc(var(--panelheader_height_ios) + 16px)) !important;
+  margin-top: calc(-1* calc(var(--panelheader_height_ios) + 20px)) !important;
 }
 
-
-
+.PopoutRoot__modal {
+  backdrop-filter: blur(10px)!important;
+}
+.ModalPage__in {
+  border: 0!important;
+  background: rgba(50, 61, 109, 0.9)!important;
+  box-shadow: rgb(0 0 0 / 25%) 0px 50px 100px, rgb(255 255 255 / 30%) 0px 0px 0px 0.5px!important;
+  backdrop-filter: blur(40px)!important;
+  border-radius: 20px!important;
+}
 
 .Group__inner {
   border: 0!important;
-  /*border-radius: 30px!important;*/
-  /*box-shadow: 0px 20px 20px 0px rgba(143,143,143,0.1) !important;*/
-  /*backdrop-filter: blur(50px);*/
 
   background: rgba(50, 61, 109, 0.5)!important;
   box-shadow: rgb(0 0 0 / 25%) 0px 50px 100px, rgb(255 255 255 / 30%) 0px 0px 0px 0.5px!important;
@@ -121,16 +132,39 @@ body[scheme="space_gray"] {
 .Tabbar--ios.Tabbar--shadow::before {
   height: 0px!important;
 }
+
+.FixedLayout {
+  box-sizing: content-box;
+  padding: 0 120px!important;
+  margin-left: -120px!important;
+}
+
+#topm, #logoh {
+  z-index: 20!important;
+
+}
 #logoh .PanelHeader__in {
   padding-top:8px;
 }
 #topm .PanelHeader__in {
   padding-top: 8px;
 }
+.PanelHeader .FixedLayout {
+  z-index: 20!important;
+}
+#nottt {
+  z-index: 11!important;
+}
+.PanelHeader .FixedLayout {
+  background-color: #151325!important;
 
+}
+#nottt  {
+  height: 72px!important;
+}
 #nottt .PanelHeader__right {
-  width: 0;
-  flex-grow: 0!important;
+  /*width: 0;*/
+  /*flex-grow: 0!important;*/
 }
 #nottt .PanelHeader__fixed {
   /*z-index: 12;*/
@@ -250,6 +284,7 @@ input:focus {
   max-width: 240px;
   margin: 20px auto;
 }
+
 
 .vkAppHeader {
   position: fixed;

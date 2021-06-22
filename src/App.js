@@ -67,16 +67,35 @@ import {
 	PanelHeaderButton, Banner, FormLayout, FormLayoutGroup, Radio, Input, FormItem, FormStatus, Snackbar, Link, Footer, Avatar
 } from "@vkontakte/vkui";
 import {
-	Icon24MoneyTransferOutline, Icon28AddCircleOutline, Icon28ArrowUpCircleOutline,
-	Icon28BombOutline, Icon28CancelCircleFillRed,
-	Icon28ClipOutline, Icon28GraphOutline, Icon28MenuOutline,
-	Icon28MessageOutline, Icon28MoneyCircleOutline, Icon28MoneyRequestOutline, Icon28MoneySendOutline,
+	Icon24Dismiss,
+	Icon24MoneyTransferOutline,
+	Icon28AddCircleOutline,
+	Icon28ArrowUpCircleOutline,
+	Icon28BombOutline,
+	Icon28CancelCircleFillRed,
+	Icon28ClipOutline,
+	Icon28CopyOutline,
+	Icon28DoorArrowLeftOutline,
+	Icon28GraphOutline,
+	Icon28LinkCircleOutline,
+	Icon28MenuOutline,
+	Icon28MessageOutline,
+	Icon28MoneyCircleOutline,
+	Icon28MoneyRequestOutline,
+	Icon28MoneySendOutline,
 	Icon28NewsfeedOutline,
-	Icon28ServicesOutline, Icon28SortHorizontalOutline, Icon28SyncOutline,
-	Icon28UserCircleOutline, Icon28UserOutline, Icon28Users3Outline, Icon28WalletOutline, Icon28WristWatchOutline
+	Icon28ServicesOutline,
+	Icon28SortHorizontalOutline,
+	Icon28SyncOutline,
+	Icon28UserCircleOutline,
+	Icon28UserOutline,
+	Icon28Users3Outline,
+	Icon28WalletOutline,
+	Icon28WristWatchOutline
 } from "@vkontakte/icons";
 import {createChart, CrosshairMode,isBusinessDay} from "lightweight-charts";
-import rub from './img/rub.png';
+
+import {CopyToClipboard} from "react-copy-to-clipboard/lib/Component";
 
 
 function getRandomInt(max) {
@@ -203,7 +222,13 @@ const App = withAdaptivity(({ viewWidth }) => {
 
 	const [assets, setassets] = useState(null);
 
+	//info server user
 	const [userInfo, setuserInfo] = useState(null);
+
+	//tg user
+	const [userTG, setuserTG] = useState(null);
+
+	const [copyText, setcopyText] = useState("Copy");
 
 	const [Coins, setCoins] = useState([
 		{
@@ -547,6 +572,12 @@ const App = withAdaptivity(({ viewWidth }) => {
 
 
 
+	function onCopy () {
+		setcopyText("Copied");
+		setTimeout(()=>{
+			setcopyText("Copy");
+		},2000)
+	}
 
 	const go = (e) => {
 		if (e.currentTarget) {
@@ -574,30 +605,73 @@ const App = withAdaptivity(({ viewWidth }) => {
 			<ModalPage
 				settlingHeight={80}
 				onClose={()=>setActiveModal(null)}
-				id="install"
+				id="wallet"
 				header={
-					<ModalPageHeader left={
-						<PanelHeaderButton onClick={()=>setActiveModal(null)}>Отмена</PanelHeaderButton>
+					<ModalPageHeader right={
+						isDesktop ?
+							null :
+						<PanelHeaderButton onClick={()=>setActiveModal(null)}><Icon24Dismiss/></PanelHeaderButton>
+
 					}>
-						Инструкция
+						Your wallet
 					</ModalPageHeader>}
 			>
 				<Div>
+
+					<Title level="3" weight="heavy" style={{
+						marginBottom: 0,
+						textAlign: 'center',
+						fontSize: isDesktop ? ".9em" : ".7em"
+					}}>{address}</Title>
 					<br />
-					<p>1. Нажмите на кнопку <b>Поделиться</b></p>
-					<p>2. В появившемся меню выберите <b>На экран «Домой».</b></p>
-					<p>3. Нажмите кнопку <b>Добавить.</b></p>
-					<p>4. Запусти установленное приложение.</p>
-					{/*<iframe src='https://www.youtube.com/embed/6E3FvtWYpbc'*/}
-					{/*        frameBorder='0'*/}
-					{/*        allow='autoplay; encrypted-media'*/}
-					{/*        allowFullScreen*/}
-					{/*        width="100%"*/}
-					{/*        height="250vh"*/}
-					{/*        title='video'*/}
-					{/*/>*/}
-					<img style={{textAlign: 'center'}} src="https://pay-apps.io/img/1.gif" alt="" width="auto" height="250vh" />
+					<div style={{display: "flex"}}>
+						<Button
+							mode="outline"
+							style={{marginRight: 12}}
+							size="l" stretched before={<Icon28LinkCircleOutline  />} target="_blank" href={"https://bscscan.com/address/"+address}>View on BscScan</Button>
+
+						<CopyToClipboard text={address}
+										 onCopy={onCopy}>
+							<Button
+								mode="outline"
+								size="l" stretched before={<Icon28CopyOutline  />}>{copyText} Address</Button>
+						</CopyToClipboard>
+
+					</div>
 					<br />
+
+				</Div>
+			</ModalPage>
+
+			<ModalPage
+				settlingHeight={80}
+				onClose={()=>setActiveModal(null)}
+				id="info"
+				header={
+					<ModalPageHeader right={
+						isDesktop ?
+							null :
+							<PanelHeaderButton onClick={()=>setActiveModal(null)}><Icon24Dismiss/></PanelHeaderButton>
+
+					}>
+						Manual connect
+					</ModalPageHeader>}
+			>
+				<Div>
+
+					<p>1. Install Trust Wallet and create a wallet <br />
+						2. Select WalletConnect authorization on our website<br />
+						3. Go to the WalletConnect section in your Trust Wallet and scan the QR code for authorization</p>
+					<br />
+
+					<Button
+						mode="outline"
+						style={{marginRight: 12}}
+						size="l" stretched before={<Icon28LinkCircleOutline  />} target="_blank" href={"https://trustwallet.com/download-page"}>Trust Wallet</Button>
+
+
+
+
 					<br />
 
 				</Div>
@@ -616,7 +690,7 @@ const App = withAdaptivity(({ viewWidth }) => {
 					<SplitLayout
 						popout={popout}
 						modal={modal}
-						header={hasHeader && <PanelHeader id="nottt" >
+						header={hasHeader && <PanelHeader id="nottt" separator={false} >
 
 						</PanelHeader>}
 						style={{ justifyContent: "center" }}
@@ -667,6 +741,7 @@ const App = withAdaptivity(({ viewWidth }) => {
 													<Card>
 														<Cell
 															description="BEP20"
+															onClick={()=>setActiveModal("wallet")}
 															after={address ? address.substr(0, 4)+"..."+address.substr(address.length-4, address.length-1) : ""}
 															before={
 																<Avatar src={"https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/MetaMask_Fox.svg/1200px-MetaMask_Fox.svg.png"} size={28} />
@@ -694,64 +769,7 @@ const App = withAdaptivity(({ viewWidth }) => {
 
 												</CardGrid>
 
-												{/*	<Card>*/}
-												{/*		<Cell*/}
-												{/*			description="В депозитах"*/}
-												{/*			after={(depDataUserTotal).toLocaleString('ru-RU') + ".00"}*/}
-												{/*			before={*/}
-												{/*				<Avatar src={rub} size={28} />*/}
-												{/*			}*/}
-												{/*		>*/}
-												{/*			RUB*/}
-												{/*		</Cell>*/}
-												{/*		<Cell*/}
-												{/*			description="Доступный баланс"*/}
-												{/*			after={(userData.balance_rub).toLocaleString('ru-RU') + ".00"}*/}
-												{/*			before={*/}
-												{/*				<Avatar src={rub} size={28} />*/}
-												{/*			}*/}
-												{/*		>*/}
-												{/*			RUB*/}
-												{/*		</Cell>*/}
 
-												{/*		<div style={{display: 'flex'}}>*/}
-												{/*			<CellButton centered*/}
-												{/*						onClick={()=>setActiveModal("bay")}*/}
-												{/*						before={<Icon28MoneyCircleOutline width={24}*/}
-												{/*														  height={24}/>}>Пополнить</CellButton>*/}
-												{/*			<CellButton centered*/}
-												{/*						onClick={()=>setActiveModal('withdraw')}*/}
-												{/*						before={<Icon28MoneySendOutline width={24}*/}
-												{/*														height={24}/>}>Вывести</CellButton>*/}
-
-												{/*		</div>*/}
-												{/*	</Card>*/}
-
-
-												{/*</CardGrid>*/}
-
-												{/*<CardGrid size="l">*/}
-												{/*	<Card>*/}
-												{/*		<Cell*/}
-												{/*			description="Бесплатные деньги"*/}
-												{/*			after={"Получить"}*/}
-												{/*			before={<Icon28ArrowUpCircleOutline  />}*/}
-												{/*			onClick={()=>setActiveModal("bonus")}*/}
-												{/*		>*/}
-												{/*			Бонусы*/}
-												{/*		</Cell>*/}
-												{/*		<Cell*/}
-												{/*			description="За каждого 50 ₽"*/}
-												{/*			after={refData ? refData.this_user_ref_count : 0}*/}
-												{/*			before={<Icon28Users3Outline   />}*/}
-												{/*			data-story="ref"*/}
-												{/*			onClick={onStoryChange}*/}
-												{/*		>*/}
-												{/*			Рефералы*/}
-												{/*		</Cell>*/}
-
-												{/*	</Card>*/}
-												{/*</CardGrid>*/}
 
 
 
@@ -878,6 +896,13 @@ const App = withAdaptivity(({ viewWidth }) => {
 
 										userInfo={userInfo}
 
+										userTG={userTG}
+										setuserTG={setuserTG}
+
+										copyText={copyText}
+
+										onCopy={onCopy}
+
 									/>
 								</View>
 								<View id="home" activePanel="home">
@@ -906,6 +931,7 @@ const App = withAdaptivity(({ viewWidth }) => {
 										resetApp={resetApp}
 
 										web3Modal={web3Modal}
+										setActiveModal={setActiveModal}
 
 
 
@@ -930,6 +956,8 @@ const App = withAdaptivity(({ viewWidth }) => {
 										address={address}
 
 										userInfo={userInfo}
+
+										setActiveModal={setActiveModal}
 
 
 
