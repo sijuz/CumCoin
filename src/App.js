@@ -230,23 +230,27 @@ const App = withAdaptivity(({ viewWidth }) => {
 
 	const [copyText, setcopyText] = useState("Copy");
 
+	const [priceCUM, setpriceCUM] = useState(null);
+
 	const [Coins, setCoins] = useState([
 		{
 			name: 'BUSD',
-			label: 'Binance-Peg BUSD Token',
+			label: 'BUSD Token',
 			contract: '0xe9e7cea3dedca5984780bafc599bd69add087d56',
 			decimals: 18,
 			balance: 0,
-			ico: "https://exchange.pancakeswap.finance/images/coins/0xe9e7cea3dedca5984780bafc599bd69add087d56.png"
+			ico: "https://exchange.pancakeswap.finance/images/coins/0xe9e7cea3dedca5984780bafc599bd69add087d56.png",
+			price: 1.00
 			// abi: 1
 		},
 		{
 			name: 'BNB',
-			label: 'BNB',
+			label: 'Smart Chain',
 			contract: '0xb8c77482e45f1f44de1745f52c74426c631bdd52', // WARN: in ERC-20 network
 			decimals: 18,
 			balance: 0,
-			ico: "https://bscscan.com/token/images/binance_32.png"
+			ico: "https://bscscan.com/token/images/binance_32.png",
+			price: 0.00
 		},
 		{
 			name: 'CUM',
@@ -254,7 +258,8 @@ const App = withAdaptivity(({ viewWidth }) => {
 			contract: '0xee658f96f8d45085a9ec6cb9c917d4875ef28987',
 			decimals: 8,
 			balance: 0,
-			ico: "https://sun9-70.userapi.com/impg/k8s2j8K_Qjtw873AqomTCHoP5Rtw8SZ6g45a_Q/uAbmbC6t6OQ.jpg?size=640x640&quality=96&sign=914394ef9295d20c7e396b1709d96d60&type=album"
+			ico: logo2,
+			price: 0.00
 		},
 	])
 
@@ -405,10 +410,6 @@ const App = withAdaptivity(({ viewWidth }) => {
 
 		const provider = await web3Modal.connect();
 
-		provider.on("connect", async (info) => {
-			console.log('connect:',info);
-		});
-
 		await subscribeProvider(provider);
 
 		const web3 = initWeb3(provider);
@@ -429,8 +430,18 @@ const App = withAdaptivity(({ viewWidth }) => {
 		for (let i=0;i<coins.length;i++) {
 			if (coins[i].name === "BNB") {
 				coins[i].balance = balance;
+
+				let dP = await axios("https://api.pancakeswap.info/api/v2/tokens/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c")
+				if (dP.data.data) {
+					coins[i].price = dP.data.data.price
+					console.log(dP)
+				}
+
 			} else {
 				coins[i].balance = await balanceToken(web3,coins[i].contract,address);
+				if (coins[i].name === "CUM") {
+					coins[i].price = await getPrice(web3);
+				}
 			}
 		}
 
@@ -494,7 +505,7 @@ const App = withAdaptivity(({ viewWidth }) => {
 		go("ref");
 	}
 
-	async function balanceToken(web3,contract_address,wallet_address) {
+	async function balanceToken(web3,contract_address,wallet_address,fix = 4) {
 		let tokenAddress = contract_address;
 		let walletAddress = wallet_address;
 
@@ -518,13 +529,17 @@ const App = withAdaptivity(({ viewWidth }) => {
 		];
 
 
-		let contract = new web3.eth.Contract(minABI,tokenAddress);
+		if (web3) {
+			let contract = new web3.eth.Contract(minABI, tokenAddress);
 
 
-		let bal = await contract.methods.balanceOf(walletAddress).call();
-		const decimals = await contract.methods.decimals().call();
+			let bal = await contract.methods.balanceOf(walletAddress).call();
+			const decimals = await contract.methods.decimals().call();
 
-		return (bal / Math.pow(10,decimals)).toFixed(4);
+			return (bal / Math.pow(10, decimals)).toFixed(fix);
+		} else {
+			return false;
+		}
 	}
 
 	async function getAccountAssets (address,chainId)  {
@@ -542,6 +557,20 @@ const App = withAdaptivity(({ viewWidth }) => {
 		}
 	}
 
+	async function getPrice(web3) {
+
+		let busdP = await balanceToken(web3,"0xe9e7cea3dedca5984780bafc599bd69add087d56","0xf84948Cf77fd0A912e70583becbf64b6161E2A38",18);
+		let cumP = await balanceToken(web3,"0xee658f96f8d45085a9ec6cb9c917d4875ef28987","0xf84948Cf77fd0A912e70583becbf64b6161E2A38",8);
+		let Price = (busdP / cumP).toFixed(8)
+		// console.log("busdP:",busdP);
+		// console.log("cumP:",cumP);
+		//
+		// console.log("Price:",Price);
+
+		setpriceCUM(Price);
+		return Price;
+
+	}
 
 
 
@@ -559,6 +588,7 @@ const App = withAdaptivity(({ viewWidth }) => {
 		if (!data.error) {
 
 			setuserInfo(data.info);
+
 
 
 
@@ -697,7 +727,7 @@ const App = withAdaptivity(({ viewWidth }) => {
 						style={{ justifyContent: "center" }}
 					>
 						{isDesktop && activeStory !== "ref" && (
-							<SplitCol fixed width="320px" maxWidth="320px" >
+							<SplitCol fixed width="350px" maxWidth="350px" >
 								<Panel id="menu1">
 									{/*<p style={{textAlign: "center",margin: 0}}>*/}
 									{/*	<img src={logo} width="120px" />*/}
@@ -739,6 +769,8 @@ const App = withAdaptivity(({ viewWidth }) => {
 													{/*	</Div>*/}
 
 													{/*</Card>*/}
+
+
 													<Card>
 														<Cell
 															description="BEP20"
@@ -752,16 +784,32 @@ const App = withAdaptivity(({ viewWidth }) => {
 														</Cell>
 													</Card>
 													<Card>
+														<Cell
+															description={"CUM/BUSD"}
+															after={priceCUM > 0 ? "$" + priceCUM : "$0.00000000"}
+															before={
+																<Avatar src={logo2} size={28} />
+															}
+														>
+															Price
+														</Cell>
+													</Card>
+													<Card>
 														{Coins.length > 0 ? Coins.map((coin,key)=> (
 															<Cell
 																key={key}
-																description={coin.label}
-																after={coin.balance}
+																description={coin.name === "CUM" ? (parseFloat(coin.price)).toFixed(8) + " $" : (parseFloat(coin.price)).toFixed(2) + " $"}
+																after={
+																	<div style={{display: "flex", flexDirection: "column", alignItems: "flex-end", justifyContent: "center"}}>
+																		<div>{coin.balance + " " + coin.name}</div>
+																		<div style={{opacity: '.7'}}>{(parseFloat(coin.price) * parseFloat(coin.balance)).toFixed(2) + " $" }</div>
+																	</div>
+																	}
 																before={
 																	<Avatar src={coin.ico} size={28} />
 																}
 															>
-																{coin.name}
+																{coin.label}
 															</Cell>
 														)) : null}
 
@@ -785,6 +833,7 @@ const App = withAdaptivity(({ viewWidth }) => {
 												backgroundColor: "var(--button_secondary_background)",
 												borderRadius: 8
 											} : {}}
+
 											data-story="home"
 											onClick={onStoryChange}
 											before={<Icon28SyncOutline  />}
@@ -856,8 +905,8 @@ const App = withAdaptivity(({ viewWidth }) => {
 						<SplitCol
 							animate={!isDesktop}
 							spaced={isDesktop}
-							width={isDesktop ? '450px' : '100%'}
-							maxWidth={isDesktop ? '450px' : '100%'}
+							width={isDesktop ? '500px' : '100%'}
+							maxWidth={isDesktop ? '500px' : '100%'}
 							// style={{marginTop: isDesktop ? 20 : 0 }}
 						>
 							<Epic activeStory={online ? activeStory : "offline"} tabbar={!isDesktop && activeStory !== "ref" &&

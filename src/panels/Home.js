@@ -26,7 +26,7 @@ import {
 	Icon28BrainOutline,
 	Icon28BriefcaseOutline, Icon28CheckCircleFill, Icon28ClockCircleFillGray, Icon28DoorArrowLeftOutline,
 	Icon28EmployeeOutline,
-	Icon28GiftOutline,
+	Icon28GiftOutline, Icon28LinkCircleOutline,
 	Icon28LogoVk,
 	Icon28MoneyCircleOutline,
 	Icon28MoneyHistoryBackwardOutline,
@@ -87,9 +87,19 @@ const Home = props => (
 					<br />
 					{/*<small>Comming soon...</small>*/}
 
-					<div style={{textAlign: "center"}}>
-					<iframe src="https://exchange.pancakeswap.finance/#/swap?outputCurrency=0xeE658f96F8D45085a9eC6Cb9c917d4875EF28987" frameBorder="0" width="400" style={{borderRadius: 20}}
-							height="900" />
+					<div >
+					{/*<iframe src="https://exchange.pancakeswap.finance/#/swap?outputCurrency=0xeE658f96F8D45085a9eC6Cb9c917d4875EF28987" frameBorder="0" width="400" style={{borderRadius: 20}}*/}
+					{/*		height="900" />*/}
+
+					<p>
+						1. Go to PancakeSwap <br />
+						2. Click connect and select WalletConnect from the list <br />
+						3. Exchange CUM coin for any other coin
+					</p>
+						<Div>
+							<Button size={"l"} stretched before={<Icon28LinkCircleOutline/>} target="_blank"
+									href="https://exchange.pancakeswap.finance/#/swap?outputCurrency=0xeE658f96F8D45085a9eC6Cb9c917d4875EF28987">PancakeSwap</Button>
+						</Div>
 					</div>
 				</Div>
 				:
