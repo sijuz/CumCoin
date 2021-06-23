@@ -232,6 +232,8 @@ const App = withAdaptivity(({ viewWidth }) => {
 
 	const [priceCUM, setpriceCUM] = useState(null);
 
+	const [twBtn, settwBtn] = useState(false);
+
 	const [Coins, setCoins] = useState([
 		{
 			name: 'BUSD',
@@ -562,10 +564,10 @@ const App = withAdaptivity(({ viewWidth }) => {
 		let busdP = await balanceToken(web3,"0xe9e7cea3dedca5984780bafc599bd69add087d56","0xf84948Cf77fd0A912e70583becbf64b6161E2A38",18);
 		let cumP = await balanceToken(web3,"0xee658f96f8d45085a9ec6cb9c917d4875ef28987","0xf84948Cf77fd0A912e70583becbf64b6161E2A38",8);
 		let Price = (busdP / cumP).toFixed(8)
-		// console.log("busdP:",busdP);
-		// console.log("cumP:",cumP);
-		//
-		// console.log("Price:",Price);
+		console.log("busdP:",busdP);
+		console.log("cumP:",cumP);
+
+		console.log("Price:",Price);
 
 		setpriceCUM(Price);
 		return Price;
@@ -589,9 +591,25 @@ const App = withAdaptivity(({ viewWidth }) => {
 
 			setuserInfo(data.info);
 
+		} else {
+			setError(data.error_code);
+			setError2(data.error2);
+			setActiveStory("error");
+			setActivePanel("home");
+		}
+	}
 
+	async function getCUM() {
 
+		let d = {
+			wallet: address,
+			telegram_id: userTG.id
+		}
+		const data = await new API().Post("api.wallet.check",d);
+		// key();
+		if (!data.error) {
 
+			// setuserInfo(data.info);
 
 		} else {
 			setError(data.error_code);
@@ -952,6 +970,11 @@ const App = withAdaptivity(({ viewWidth }) => {
 										copyText={copyText}
 
 										onCopy={onCopy}
+
+										twBtn={twBtn}
+										settwBtn={settwBtn}
+
+										getCUM={getCUM}
 
 									/>
 								</View>

@@ -67,7 +67,7 @@ import {
 	WorkplaceIcon
 } from "react-share";
 
-// import TwitterLogin from "react-twitter-login";
+import TwitterLogin from "react-twitter-login";
 import logo from "../img/logo.png";
 import logo2 from "../img/PNG2.png";
 
@@ -83,6 +83,8 @@ const handleTelegramResponse = response => {
 	console.log("TG:",response);
 
 };
+
+
 
 
 const Top = props => (
@@ -143,11 +145,12 @@ const Top = props => (
 
 					{/*<Button size={"l"}   before={<Icon24Send   />} mode="commerce" id="telegramButton">Telegram</Button>*/}
 					<p />
-					<Button size={"l"}   before={<Icon24LogoTwitter  />} mode="commerce" target="_blank" href="https://twitter.com/CUMCoinTeam" >Twitter subscribe</Button>
+
+					<Button size={"l"}   before={<Icon24LogoTwitter  />} mode="commerce" target="_blank" href="https://twitter.com/CUMCoinTeam" onClick={()=>props.settwBtn(true)} >Twitter subscribe</Button>
 					<p />
 					{props.ConnectedWEB3 ?
 
-						<Button size={"l"} stretched before={<Icon28GiftOutline />} disabled={!props.userTG}>Get 100 CUM</Button>
+						<Button size={"l"} stretched before={<Icon28GiftOutline />} disabled={!(props.userTG && props.twBtn)} onClick={props.getCUM}>Get 100 CUM</Button>
 						:
 						<Button size={"l"} stretched before={<Icon28LockOpenOutline />} onClick={props.loginWEB3}>Unlock Wallet</Button>
 					}
