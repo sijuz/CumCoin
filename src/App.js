@@ -1008,6 +1008,8 @@ const App = withAdaptivity(({ viewWidth }) => {
 										userInfo={userInfo}
 
 										setActiveModal={setActiveModal}
+										priceCUM={priceCUM}
+
 
 
 

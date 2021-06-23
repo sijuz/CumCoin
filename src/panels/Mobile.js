@@ -32,6 +32,7 @@ import {
 	Icon56ArchiveOutline, Icon56CheckCircleOutline, Icon56MailOutline, Icon56Users3Outline
 } from "@vkontakte/icons";
 import logo from "../img/PNG2.png";
+import logo2 from "../img/logo.png";
 
 function getRandomInt(max) {
 	return Math.floor(Math.random() * Math.floor(max));
@@ -88,16 +89,32 @@ const Top = props => (
 						</Cell>
 					</Card>
 					<Card>
+						<Cell
+							description={"CUM/BUSD"}
+							after={props.priceCUM > 0 ? "$" + props.priceCUM : "$0.00000000"}
+							before={
+								<Avatar src={logo2} size={28} />
+							}
+						>
+							Price
+						</Cell>
+					</Card>
+					<Card>
 						{props.Coins.length > 0 ? props.Coins.map((coin,key)=> (
 							<Cell
 								key={key}
-								description={coin.label}
-								after={coin.balance}
+								description={coin.name === "CUM" ? (parseFloat(coin.price)).toFixed(8) + " $" : (parseFloat(coin.price)).toFixed(2) + " $"}
+								after={
+									<div style={{display: "flex", flexDirection: "column", alignItems: "flex-end", justifyContent: "center"}}>
+										<div>{coin.balance + " " + coin.name}</div>
+										<div style={{opacity: '.7'}}>{(parseFloat(coin.price) * parseFloat(coin.balance)).toFixed(2) + " $" }</div>
+									</div>
+								}
 								before={
 									<Avatar src={coin.ico} size={28} />
 								}
 							>
-								{coin.name}
+								{coin.label}
 							</Cell>
 						)) : null}
 
