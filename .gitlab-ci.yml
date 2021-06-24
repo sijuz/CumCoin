@@ -10,7 +10,6 @@ build:
     PUBLIC_URL: https://fullw0rk.gitlab.io/cum_coin_front/  
 
   script:
-    - npm install yarn
     - yarn install
     - npm run build
 
