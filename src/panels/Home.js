@@ -94,7 +94,7 @@ const Home = props => (
 					<p>
 						1. Go to PancakeSwap <br />
 						2. Click connect and select WalletConnect from the list <br />
-						3. Exchange CUM coin for any other coin
+						3. Exchange any other coin for CUM
 					</p>
 						<Div>
 							<Button size={"l"} stretched before={<Icon28LinkCircleOutline/>} target="_blank"

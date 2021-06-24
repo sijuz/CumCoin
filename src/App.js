@@ -67,6 +67,7 @@ import {
 	PanelHeaderButton, Banner, FormLayout, FormLayoutGroup, Radio, Input, FormItem, FormStatus, Snackbar, Link, Footer, Avatar
 } from "@vkontakte/vkui";
 import {
+	Icon24CheckCircleOutline,
 	Icon24Dismiss,
 	Icon24MoneyTransferOutline,
 	Icon28AddCircleOutline,
@@ -96,6 +97,8 @@ import {
 import {createChart, CrosshairMode,isBusinessDay} from "lightweight-charts";
 
 import {CopyToClipboard} from "react-copy-to-clipboard/lib/Component";
+
+import * as moment from 'moment';
 
 
 function getRandomInt(max) {
@@ -611,6 +614,12 @@ const App = withAdaptivity(({ viewWidth }) => {
 
 			usersGet(address)
 
+			setSnackbar(<Snackbar
+				onClose={() => setSnackbar(null)}
+				before={<Avatar size={24} style={{ background: 'var(--commerce)' }}><Icon24CheckCircleOutline fill="#fff" width={14} height={14} /></Avatar>}
+
+			>Successful AirDrop</Snackbar>)
+
 			// setuserInfo(data.info);
 
 		} else if (data.error_code === 1006) {
@@ -784,7 +793,8 @@ const App = withAdaptivity(({ viewWidth }) => {
 															<Title level="3" weight="heavy" style={{
 																marginBottom: 0,
 																textAlign: 'center'
-															}}>7 d 14 h 21 m </Title>
+															}}>{moment(1625954786*1000).fromNow()  }</Title>
+
 
 														</Div>
 

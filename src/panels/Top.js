@@ -113,49 +113,77 @@ const Top = props => (
 
 
 			<Div>
-				<Title level="2" weight="heavy" style={{
-					marginBottom: 0,
-					textAlign: 'center'
-				}}>To get an airdrop of 100 CUM you need to follow these steps:</Title>
+				{props.userInfo ? props.userInfo.airdrop_balance >= 10000000000 ?
+					<div>
+						<Title level="2" weight="heavy" style={{
+							marginBottom: 0,
+							textAlign: 'center'
+						}}>Airdrop has been successfully credited to your balance</Title>
+						<p style={{
+							textAlign: 'center'
+						}}>
+						Wait for the end of the airdrop to withdraw CUM to your wallet
+						</p>
+						<Button size={"l"} stretched before={<Icon28LockOpenOutline/>}
+								disabled>Pay fee</Button>
+					</div>
+					:
+					<div>
+						<Title level="2" weight="heavy" style={{
+							marginBottom: 0,
+							textAlign: 'center'
+						}}>To get an airdrop of 100 CUM you need to follow these steps:</Title>
 
 
-				<p style={{
-					textAlign: 'center'
-				}}>Log in and subscribe to our social networks</p>
-				<div style={{textAlign: "center"}}>
+						<p style={{
+							textAlign: 'center'
+						}}>Log in and subscribe to our social networks</p>
+						<div style={{textAlign: "center"}}>
 
-					{/*<TwitterLogin*/}
-					{/*	authCallback={authHandler}*/}
-					{/*	consumerKey={"1"}*/}
-					{/*	consumerSecret={"1"}*/}
-					{/*	requestTokenUrl={"1"}*/}
-					{/*	accessTokenUrl={"1"}*/}
-					{/*/>*/}
+							{/*<TwitterLogin*/}
+							{/*	authCallback={authHandler}*/}
+							{/*	consumerKey={"1"}*/}
+							{/*	consumerSecret={"1"}*/}
+							{/*	requestTokenUrl={"1"}*/}
+							{/*	accessTokenUrl={"1"}*/}
+							{/*/>*/}
 
 
-					{props.userTG ?
-						<Button size={"l"} before={<Icon24Send/>} mode="commerce" target="_blank" href="https://t.me/cumcoinlive">Telegram subscribe</Button>
-						:
-						<div className="bot2">
-							<TelegramLoginButton dataOnauth={(res) => {
-								props.setuserTG(res)
-							}} botName="cum_coin_airdrop_bot"/>
+							{props.userTG ?
+								<Button size={"l"} before={<Icon24Send/>} mode="commerce" target="_blank"
+										href="https://t.me/cumcoinlive">Telegram subscribe</Button>
+								:
+								<div className="bot2">
+									<TelegramLoginButton dataOnauth={(res) => {
+										props.setuserTG(res)
+									}} botName="cum_coin_airdrop_bot"/>
+								</div>
+							}
+
+							{/*<Button size={"l"}   before={<Icon24Send   />} mode="commerce" id="telegramButton">Telegram</Button>*/}
+							<p/>
+
+							<Button size={"l"} before={<Icon24LogoTwitter/>} mode="commerce" target="_blank"
+									href="https://twitter.com/CUMCoinTeam" onClick={() => props.settwBtn(true)}>Twitter
+								subscribe</Button>
+							<p/>
+							{props.ConnectedWEB3 ?
+
+								<Button size={"l"} stretched before={<Icon28GiftOutline/>}
+										disabled={!(props.userTG && props.twBtn)} onClick={props.getCUM}>Get 100
+									CUM</Button>
+								:
+								<Button size={"l"} stretched before={<Icon28LockOpenOutline/>}
+										onClick={props.loginWEB3}>Unlock Wallet</Button>
+							}
 						</div>
-					}
 
-					{/*<Button size={"l"}   before={<Icon24Send   />} mode="commerce" id="telegramButton">Telegram</Button>*/}
-					<p />
+					</div>
+					:
+					<div>
 
-					<Button size={"l"}   before={<Icon24LogoTwitter  />} mode="commerce" target="_blank" href="https://twitter.com/CUMCoinTeam" onClick={()=>props.settwBtn(true)} >Twitter subscribe</Button>
-					<p />
-					{props.ConnectedWEB3 ?
-
-						<Button size={"l"} stretched before={<Icon28GiftOutline />} disabled={!(props.userTG && props.twBtn)} onClick={props.getCUM}>Get 100 CUM</Button>
-						:
-						<Button size={"l"} stretched before={<Icon28LockOpenOutline />} onClick={props.loginWEB3}>Unlock Wallet</Button>
-					}
-				</div>
-
+					</div>
+				}
 				<br />
 				<CardGrid size="l">
 					<Card>
