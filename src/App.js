@@ -237,6 +237,9 @@ const App = withAdaptivity(({ viewWidth }) => {
 
 	const [twBtn, settwBtn] = useState(false);
 
+	//google cap
+	const [recaptcha, setrecaptcha] = useState(false);
+
 	const [Coins, setCoins] = useState([
 		{
 			name: 'BUSD',
@@ -606,7 +609,8 @@ const App = withAdaptivity(({ viewWidth }) => {
 
 		let d = {
 			wallet: address,
-			telegram_id: userTG.id
+			telegram_id: userTG.id,
+			g_recaptcha_response: recaptcha
 		}
 		const data = await new API().Post("api.wallet.check",d);
 		// key();
@@ -634,6 +638,12 @@ const App = withAdaptivity(({ viewWidth }) => {
 				before={<Avatar size={24} style={{ background: 'var(--destructive)' }}><Icon24Dismiss fill="#fff" width={14} height={14} /></Avatar>}
 
 			>You are not subscribed to social networks</Snackbar>)
+		} else if (data.error_code === 1008) {
+			setSnackbar(<Snackbar
+				onClose={() => setSnackbar(null)}
+				before={<Avatar size={24} style={{ background: 'var(--destructive)' }}><Icon24Dismiss fill="#fff" width={14} height={14} /></Avatar>}
+
+			>Captcha error</Snackbar>)
 		} else {
 			setError(data.error_code);
 			setError2(data.error2);
@@ -643,6 +653,11 @@ const App = withAdaptivity(({ viewWidth }) => {
 	}
 
 
+
+	function onChangeCaptcha(value) {
+		console.log("Captcha value:", value);
+		setrecaptcha(value);
+	}
 
 	function onCopy () {
 		setcopyText("Copied");
@@ -999,6 +1014,8 @@ const App = withAdaptivity(({ viewWidth }) => {
 										settwBtn={settwBtn}
 
 										getCUM={getCUM}
+
+										onChangeCaptcha={onChangeCaptcha}
 
 									/>
 								</View>

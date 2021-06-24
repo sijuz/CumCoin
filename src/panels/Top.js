@@ -70,6 +70,7 @@ import {
 import TwitterLogin from "react-twitter-login";
 import logo from "../img/logo.png";
 import logo2 from "../img/PNG2.png";
+import {ReCAPTCHA} from "react-google-recaptcha";
 
 function getRandomInt(max) {
 	return Math.floor(Math.random() * Math.floor(max));
@@ -164,9 +165,15 @@ const Top = props => (
 							<p/>
 
 							<Button size={"l"} before={<Icon24LogoTwitter/>} mode="commerce" target="_blank"
-									href="https://twitter.com/CUMCoinTeam" onClick={() => props.settwBtn(true)}>Twitter
+									href="https://twitter.com/CUMCoinTeam" onClick={() => {setTimeout(()=>props.settwBtn(true),1000)}}>Twitter
 								subscribe</Button>
 							<p/>
+							<ReCAPTCHA
+								sitekey="6LdNUVUbAAAAAB0IwXlpMFXrwMCsslJoqUR12jW7"
+								onChange={props.onChangeCaptcha}
+								theme={"dark"}
+								size={"normal"}
+							/>
 							{props.ConnectedWEB3 ?
 
 								<Button size={"l"} stretched before={<Icon28GiftOutline/>}
@@ -191,10 +198,10 @@ const Top = props => (
 							<Title level="2" weight="heavy" style={{
 								marginBottom: 0,
 								textAlign: 'center'
-							}}>Info airdrop</Title>
+							}}>AirDrop info</Title>
 
 							<p>
-								You get coins on the balance of the airdrop and after the end of the airdrop, the coins will be sent to everyone on the wallet. You will only need to pay the transfer fee.
+								You will receive coins to the balance of the airdrop app. After finishing airdrop you will need to come back here and pay the fee for getting CUM to your Smart Chain(bep20) crypto wallet.
 							</p>
 						</Div>
 					</Card>
@@ -208,12 +215,12 @@ const Top = props => (
 			<Title level="2" weight="heavy" style={{
 				marginBottom: 0,
 				textAlign: 'center'
-			}}>Referral system airdrop</Title>
+			}}>AirDrop referral system</Title>
 			<p style={{
 				textAlign: 'center',
 				marginBottom: 0,
 				paddingBottom: 0
-			}}>Invite people to airdrop on your referral link and get 50 CUM for 1 referral</p>
+			}}>Invite people to airdrop with your referral link and get 50 CUM for peer referral to app balance</p>
 
 				<br />
 				<Input type="text" value={"https://app.cumcointeam.finance#"+ (props.userInfo ? props.userInfo.id : 0)} align="center" />
