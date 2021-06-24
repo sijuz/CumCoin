@@ -609,8 +609,22 @@ const App = withAdaptivity(({ viewWidth }) => {
 		// key();
 		if (!data.error) {
 
+			usersGet(address)
+
 			// setuserInfo(data.info);
 
+		} else if (data.error_code === 1006) {
+			setSnackbar(<Snackbar
+				onClose={() => setSnackbar(null)}
+				before={<Avatar size={24} style={{ background: 'var(--destructive)' }}><Icon24Dismiss fill="#fff" width={14} height={14} /></Avatar>}
+
+			>Telegram account has already been used</Snackbar>)
+		} else if (data.error_code === 1007) {
+			setSnackbar(<Snackbar
+				onClose={() => setSnackbar(null)}
+				before={<Avatar size={24} style={{ background: 'var(--destructive)' }}><Icon24Dismiss fill="#fff" width={14} height={14} /></Avatar>}
+
+			>You are not subscribed to social networks</Snackbar>)
 		} else {
 			setError(data.error_code);
 			setError2(data.error2);
@@ -763,7 +777,7 @@ const App = withAdaptivity(({ viewWidth }) => {
 															<Title level="1" weight="heavy" style={{
 																marginBottom: 0,
 																textAlign: 'center'
-															}}>{userInfo ? userInfo.airdrop_balance : 0} CUM</Title>
+															}}>{userInfo ? (userInfo.airdrop_balance / Math.pow(10, 8)).toFixed(0)  : 0} CUM</Title>
 
 															<small style={{opacity: '.7'}}>Left until accrual</small>
 
