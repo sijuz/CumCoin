@@ -1017,6 +1017,8 @@ const App = withAdaptivity(({ viewWidth }) => {
 
 										onChangeCaptcha={onChangeCaptcha}
 
+										recaptcha={recaptcha}
+
 									/>
 								</View>
 								<View id="home" activePanel="home">

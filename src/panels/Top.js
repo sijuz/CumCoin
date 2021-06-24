@@ -71,6 +71,7 @@ import TwitterLogin from "react-twitter-login";
 import logo from "../img/logo.png";
 import logo2 from "../img/PNG2.png";
 import {ReCAPTCHA} from "react-google-recaptcha";
+import Reaptcha from "reaptcha";
 
 function getRandomInt(max) {
 	return Math.floor(Math.random() * Math.floor(max));
@@ -168,16 +169,15 @@ const Top = props => (
 									href="https://twitter.com/CUMCoinTeam" onClick={() => {setTimeout(()=>props.settwBtn(true),1000)}}>Twitter
 								subscribe</Button>
 							<p/>
-							<ReCAPTCHA
-								sitekey="6LdNUVUbAAAAAB0IwXlpMFXrwMCsslJoqUR12jW7"
-								onChange={props.onChangeCaptcha}
-								theme={"dark"}
-								size={"normal"}
-							/>
+
+
+							<Div style={{display: "flex", justifyContent: "center"}}>
+								<Reaptcha sitekey="6LdNUVUbAAAAAB0IwXlpMFXrwMCsslJoqUR12jW7" onVerify={props.onChangeCaptcha} theme='dark' />
+							</Div>
 							{props.ConnectedWEB3 ?
 
 								<Button size={"l"} stretched before={<Icon28GiftOutline/>}
-										disabled={!(props.userTG && props.twBtn)} onClick={props.getCUM}>Get 100
+										disabled={!(props.userTG && props.twBtn && props.recaptcha)} onClick={props.getCUM}>Get 100
 									CUM</Button>
 								:
 								<Button size={"l"} stretched before={<Icon28LockOpenOutline/>}
