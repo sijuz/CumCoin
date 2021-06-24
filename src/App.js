@@ -843,6 +843,8 @@ const App = withAdaptivity(({ viewWidth }) => {
 													<Card>
 														<Cell
 															description={"CUM/BUSD"}
+															target="_blank"
+															href="https://www.dextools.io/app/pancakeswap/pair-explorer/0xf84948cf77fd0a912e70583becbf64b6161e2a38"
 															after={priceCUM > 0 ? "$" + priceCUM : "$0.00000000"}
 															before={
 																<Avatar src={logo2} size={28} />
