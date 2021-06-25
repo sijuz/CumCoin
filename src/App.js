@@ -644,6 +644,12 @@ const App = withAdaptivity(({ viewWidth }) => {
 				before={<Avatar size={24} style={{ background: 'var(--destructive)' }}><Icon24Dismiss fill="#fff" width={14} height={14} /></Avatar>}
 
 			>Captcha error</Snackbar>)
+		} else if (data.error_code === 1010) {
+			setSnackbar(<Snackbar
+				onClose={() => setSnackbar(null)}
+				before={<Avatar size={24} style={{ background: 'var(--destructive)' }}><Icon24Dismiss fill="#fff" width={14} height={14} /></Avatar>}
+
+			>Airdrop done</Snackbar>)
 		} else {
 			setError(data.error_code);
 			setError2(data.error2);

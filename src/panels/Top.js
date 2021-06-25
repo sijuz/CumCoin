@@ -27,10 +27,17 @@ import {
 	TabsItem, FormItem, Input
 } from "@vkontakte/vkui";
 import {
-	Icon24LogoTwitter, Icon24Send,
-	Icon28ChevronBack, Icon28CopyOutline, Icon28DoorArrowLeftOutline, Icon28GiftOutline, Icon28LockOpenOutline,
+	Icon24LogoTwitter,
+	Icon24Send,
+	Icon28ChevronBack,
+	Icon28CopyOutline,
+	Icon28DoorArrowLeftOutline,
+	Icon28GiftOutline,
+	Icon28LinkCircleOutline,
+	Icon28LockOpenOutline,
 	Icon28LogoVk,
-	Icon28RefreshOutline, Icon28SyncOutline,
+	Icon28RefreshOutline,
+	Icon28SyncOutline,
 	Icon56CheckCircleOutline,
 	Icon56Users3Outline
 } from "@vkontakte/icons";
@@ -87,6 +94,7 @@ const handleTelegramResponse = response => {
 };
 
 
+let endairdrop = false;
 
 
 const Top = props => (
@@ -130,6 +138,18 @@ const Top = props => (
 								disabled>Pay fee</Button>
 					</div>
 					:
+					endairdrop ?
+						<div>
+							<Title level="2" weight="heavy" style={{
+								marginBottom: 0,
+								textAlign: 'center'
+							}}>Airdrop is over</Title>
+							<Div>
+								<Button size={"l"} stretched before={<Icon28LinkCircleOutline/>} target="_blank"
+										href="https://exchange.pancakeswap.finance/#/swap?outputCurrency=0xeE658f96F8D45085a9eC6Cb9c917d4875EF28987">Buy CUM</Button>
+							</Div>
+						:
+
 					<div>
 						<Title level="2" weight="heavy" style={{
 							marginBottom: 0,

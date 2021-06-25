@@ -33,6 +33,7 @@ import {
 } from "@vkontakte/icons";
 import logo from "../img/PNG2.png";
 import logo2 from "../img/logo.png";
+import * as moment from "moment";
 
 function getRandomInt(max) {
 	return Math.floor(Math.random() * Math.floor(max));
@@ -71,7 +72,7 @@ const Top = props => (
 							<Title level="3" weight="heavy" style={{
 								marginBottom: 0,
 								textAlign: 'center'
-							}}>7 d 14 h 21 m </Title>
+							}}>{moment(1625954786*1000).fromNow()  }</Title>
 
 						</Div>
 
