@@ -6,7 +6,7 @@ import Icon28BugOutline from '@vkontakte/icons/dist/28/bug_outline';
 import {Icon28DoorArrowLeftOutline} from "@vkontakte/icons";
 import logo from "../img/PNG2.png";
 
-const Error = ({ id, go, error,error2,resetApp,isDesktop}) => {
+const Error = ({ id, error,error2,resetApp,isDesktop}) => {
 	return (
 	<Panel id={id}>
 

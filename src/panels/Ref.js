@@ -1,42 +1,18 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import './Persik.css';
 import {
-	Avatar,
-	SimpleCell,
-	Spinner,
 	Panel,
 	PanelHeader,
-	PanelHeaderBack,
 	Div,
-	PanelHeaderButton,
-	PanelHeaderContent,
-	List,
-	RichCell,
 	Button,
 	Group,
-	Link,
-	Footer,
-	FormItem,
-	Input,
-	Cell,
-	Card,
-	Title, CardGrid
+	Title,
 } from "@vkontakte/vkui";
 import {
-	Icon28ChevronBack, Icon28DoorArrowLeftOutline, Icon28InfoOutline, Icon28LockOpenOutline,
-	Icon28LogoVk,
-	Icon28RefreshOutline,
-	Icon28Users3Outline,
-	Icon56ArchiveOutline, Icon56CheckCircleOutline, Icon56MailOutline, Icon56Users3Outline
+	Icon28InfoOutline, Icon28LockOpenOutline,
 } from "@vkontakte/icons";
 import logo from "../img/PNG2.png";
-
-function getRandomInt(max) {
-	return Math.floor(Math.random() * Math.floor(max));
-}
-
 
 
 const Top = props => (

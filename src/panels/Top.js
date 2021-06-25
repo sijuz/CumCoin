@@ -1,49 +1,31 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import TelegramLoginButton from 'react-telegram-login';
-import ReactDOM from 'react-dom';
 
 import './Persik.css';
 import {
-	Avatar,
-	SimpleCell,
-	Spinner,
 	Panel,
 	PanelHeader,
-	PanelHeaderBack,
 	Div,
-	PanelHeaderButton,
-	PanelHeaderContent,
-	List,
 	RichCell,
 	Button,
 	Group,
-	Link,
-	Footer,
 	Card,
 	Title,
-	CardGrid,
-	Tabs,
-	TabsItem, FormItem, Input
+	CardGrid, Input
 } from "@vkontakte/vkui";
 import {
 	Icon24LogoTwitter,
 	Icon24Send,
-	Icon28ChevronBack,
 	Icon28CopyOutline,
 	Icon28DoorArrowLeftOutline,
 	Icon28GiftOutline,
 	Icon28LinkCircleOutline,
 	Icon28LockOpenOutline,
-	Icon28LogoVk,
-	Icon28RefreshOutline,
-	Icon28SyncOutline,
 	Icon56CheckCircleOutline,
 	Icon56Users3Outline
 } from "@vkontakte/icons";
 import {CopyToClipboard} from "react-copy-to-clipboard/lib/Component";
 import {
-	FacebookMessengerShareButton,
 	FacebookShareButton, RedditShareButton,
 	TelegramShareButton,
 	TwitterShareButton, VKShareButton,
@@ -51,47 +33,17 @@ import {
 } from "react-share";
 
 import {
-	EmailIcon,
 	FacebookIcon,
-	FacebookMessengerIcon,
-	HatenaIcon,
-	InstapaperIcon,
-	LineIcon,
-	LinkedinIcon,
-	LivejournalIcon,
-	MailruIcon,
-	OKIcon,
-	PinterestIcon,
-	PocketIcon,
 	RedditIcon,
 	TelegramIcon,
-	TumblrIcon,
 	TwitterIcon,
-	ViberIcon,
 	VKIcon,
-	WeiboIcon,
 	WhatsappIcon,
-	WorkplaceIcon
 } from "react-share";
 
-import TwitterLogin from "react-twitter-login";
 import logo from "../img/logo.png";
 import logo2 from "../img/PNG2.png";
-import {ReCAPTCHA} from "react-google-recaptcha";
 import Reaptcha from "reaptcha";
-
-function getRandomInt(max) {
-	return Math.floor(Math.random() * Math.floor(max));
-}
-
-const authHandler = (err, data) => {
-	console.log(err, data);
-};
-
-const handleTelegramResponse = response => {
-	console.log("TG:",response);
-
-};
 
 
 let endairdrop = false;
@@ -148,6 +100,7 @@ const Top = props => (
 								<Button size={"l"} stretched before={<Icon28LinkCircleOutline/>} target="_blank"
 										href="https://exchange.pancakeswap.finance/#/swap?outputCurrency=0xeE658f96F8D45085a9eC6Cb9c917d4875EF28987">Buy CUM</Button>
 							</Div>
+						</div>
 						:
 
 					<div>

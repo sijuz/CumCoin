@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import bridge from '@vkontakte/vk-bridge';
 
 import Web3 from 'web3';
 import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
-import Torus from "@toruslabs/torus-embed";
-import Fortmatic from "fortmatic";
 
-import { apiGetAccountAssets } from "./eth";
 
 import '@vkontakte/vkui/dist/vkui.css';
 
@@ -26,7 +22,6 @@ import logo from './img/PNG2.png';
 import logo2 from './img/logo.png';
 
 
-const crypto = require('crypto');
 import API from './api';
 
 
@@ -43,7 +38,6 @@ import {
 	ScreenSpinner,
 	withAdaptivity,
 	VKCOM,
-	ViewWidth,
 	SplitLayout,
 	PanelHeader,
 	SplitCol,
@@ -60,83 +54,24 @@ import {
 	AdaptivityProvider,
 	AppRoot,
 	WebviewType,
-	CellButton,
 	Title,
 	Separator,
 	Platform,
-	PanelHeaderButton, Banner, FormLayout, FormLayoutGroup, Radio, Input, FormItem, FormStatus, Snackbar, Link, Footer, Avatar
+	PanelHeaderButton, Snackbar, Link,  Avatar
 } from "@vkontakte/vkui";
 import {
 	Icon24CheckCircleOutline,
 	Icon24Dismiss,
-	Icon24MoneyTransferOutline,
-	Icon28AddCircleOutline,
-	Icon28ArrowUpCircleOutline,
-	Icon28BombOutline,
-	Icon28CancelCircleFillRed,
-	Icon28ClipOutline,
 	Icon28CopyOutline,
-	Icon28DoorArrowLeftOutline,
-	Icon28GraphOutline,
 	Icon28LinkCircleOutline,
-	Icon28MenuOutline,
-	Icon28MessageOutline,
-	Icon28MoneyCircleOutline,
-	Icon28MoneyRequestOutline,
-	Icon28MoneySendOutline,
-	Icon28NewsfeedOutline,
-	Icon28ServicesOutline,
-	Icon28SortHorizontalOutline,
 	Icon28SyncOutline,
-	Icon28UserCircleOutline,
-	Icon28UserOutline,
 	Icon28Users3Outline,
 	Icon28WalletOutline,
-	Icon28WristWatchOutline
 } from "@vkontakte/icons";
-import {createChart, CrosshairMode,isBusinessDay} from "lightweight-charts";
 
 import {CopyToClipboard} from "react-copy-to-clipboard/lib/Component";
 
 import * as moment from 'moment';
-
-
-function getRandomInt(max) {
-	return Math.floor(Math.random() * Math.floor(max));
-}
-
-function setCookie(c_name, value, exdays) {
-	let exdate = new Date();
-	exdate.setDate(exdate.getDate() + exdays);
-	let c_value = escape(value) + ((exdays == null) ? "" : "; expires=" + exdate.toUTCString());
-	document.cookie = c_name + "=" + c_value;
-}
-
-function getCookie(c_name) {
-	let i, x, y, ARRcookies = document.cookie.split(";");
-	for (i = 0; i < ARRcookies.length; i++) {
-		x = ARRcookies[i].substr(0, ARRcookies[i].indexOf("="));
-		y = ARRcookies[i].substr(ARRcookies[i].indexOf("=") + 1);
-		x = x.replace(/^\s+|\s+$/g, "");
-		if (x === c_name) {
-			return unescape(y);
-		}
-	}
-}
-
-function getUrlVar(){
-	var urlVar = window.location.search; // получаем параметры из урла
-	var arrayVar = []; // массив для хранения переменных
-	var valueAndKey = []; // массив для временного хранения значения и имени переменной
-	var resultArray = []; // массив для хранения переменных
-	arrayVar = (urlVar.substr(1)).split('&'); // разбираем урл на параметры
-	if(arrayVar[0]==="") return false; // если нет переменных в урле
-	for (let i = 0; i < arrayVar.length; i ++) { // перебираем все переменные из урла
-		valueAndKey = arrayVar[i].split('='); // пишем в массив имя переменной и ее значение
-		resultArray[valueAndKey[0]] = valueAndKey[1]; // пишем в итоговый массив имя переменной и ее значение
-	}
-	return resultArray; // возвращаем результат
-}
 
 const sheme = function () {
 	document.querySelector('body').setAttribute("scheme","space_gray");
@@ -163,46 +98,20 @@ const sheme = function () {
 };
 
 
-function useInterval(callback, delay) {
-	const savedCallback = React.useRef();
 
-	React.useEffect(() => {
-		savedCallback.current = callback;
-	}, [callback]);
-
-	React.useEffect(() => {
-		function tick() {
-			savedCallback.current();
-		}
-
-		if (delay !== null) {
-			const interval = setInterval(tick, delay);
-
-			return () => clearInterval(interval);
-		}
-	}, [delay]);
-}
-
-
-const App = withAdaptivity(({ viewWidth }) => {
+const App = withAdaptivity(() => {
 	// Стейт запуска
 	const platform = usePlatform();
 	const isDesktop = window.innerWidth >= 1000;
 	const hasHeader = platform !== VKCOM;
-	const version = 21;
 
 	// Стейт приложения
 	const [activeStory, setActiveStory] = useState('ref');
-	const [activePanel, setActivePanel] = useState('ref');
 	const [popout, setPopout] = useState(<ScreenSpinner size='large' />);
 	const [activeModal,setActiveModal] = useState(null);
 	const [snackbar,setSnackbar] = useState(null);
 
 	const [online,setOnline] = useState(true);
-
-	// Стейт данных с сервера
-	const [userData,setUserData] = useState(null);
-	const [bonus,setBonus] = useState(null);
 
 	// Стейт ошибок
 	const [error,setError] = useState(null);
@@ -223,7 +132,6 @@ const App = withAdaptivity(({ viewWidth }) => {
 	const [chainId, setchainId] = useState(null);
 	const [networkId, setnetworkId] = useState(null);
 
-	const [assets, setassets] = useState(null);
 
 	//info server user
 	const [userInfo, setuserInfo] = useState(null);
@@ -282,8 +190,8 @@ const App = withAdaptivity(({ viewWidth }) => {
 
 		setPopout(null);
 
-		window.addEventListener('online', e =>setOnline(true));
-		window.addEventListener('offline', e =>setOnline(false));
+		window.addEventListener('online', () =>setOnline(true));
+		window.addEventListener('offline', () =>setOnline(false));
 
 		// connectWeb3();
 
@@ -293,13 +201,7 @@ const App = withAdaptivity(({ viewWidth }) => {
 
 
 		const providerOptions = {
-			// walletconnect: {
-			// 	package: WalletConnectProvider,
-			// 	options: {
-			// 		// infuraId: "0db04b8aad4e437d824f8acb08cd3902"
-			// 		infuraId: "774b1e4252de48c3997d66ac5f5078d8"
-			// 	}
-			// },
+
 			walletconnect: {
 				package: WalletConnectProvider,
 				options: {
@@ -308,19 +210,10 @@ const App = withAdaptivity(({ viewWidth }) => {
 					},
 					network: 'binance',
 					chainId: 56,
-					infuraId: "774b1e4252de48c3997d66ac5f5078d8",
+					infuraId: "0db04b8aad4e437d824f8acb08cd3902",
 					bridge: "https://polygon.bridge.walletconnect.org"
 				},
 			},
-			// torus: {
-			// 	package: Torus
-			// },
-			// fortmatic: {
-			// 	package: Fortmatic, // required
-			// 	options: {
-			// 		key: "pk_live_ADB6B524274856DA" // required
-			// 	}
-			// }
 		}
 
 		const web = new Web3Modal({
@@ -333,7 +226,8 @@ const App = withAdaptivity(({ viewWidth }) => {
 		setWeb3Modal(web)
 
 		if (web.cachedProvider) {
-			loginWEB3 (web,hash);
+			let data = loginWEB3 (web,hash);
+			console.log(data);
 		}
 
 
@@ -473,7 +367,7 @@ const App = withAdaptivity(({ viewWidth }) => {
 		setnetworkId(networkId);
 		setCoins(coins);
 		go("top")
-		usersGet(address,h);
+		return await usersGet(address,h);
 		// await getAccountAssets(address,chainId);
 
 
@@ -550,20 +444,6 @@ const App = withAdaptivity(({ viewWidth }) => {
 		}
 	}
 
-	async function getAccountAssets (address,chainId)  {
-		// const { address, chainId } = this.state;
-		// this.setState({ fetching: true });
-		try {
-			// get account balances
-			const assets = await apiGetAccountAssets(address, chainId);
-
-			// await this.setState({ fetching: false, assets });
-			setassets(assets)
-		} catch (error) {
-			console.error(error); // tslint:disable-line
-			// await this.setState({ fetching: false });
-		}
-	}
 
 	async function getPrice(web3) {
 
@@ -584,84 +464,76 @@ const App = withAdaptivity(({ viewWidth }) => {
 
 	async function usersGet(wallet,hash = '') {
 
-		let d = {
+		let sendData = {
 			wallet: wallet
 		}
 		if (hash !== '') {
-			d.ref = Number(hash);
-			console.log("Ha:",hash)
+			sendData.ref = Number(hash);
 		}
-		const data = await new API().Post("api.wallet.get_info",d);
-		// key();
-		if (!data.error) {
+		const data = await new API().Post("api.wallet.get_info",sendData);
+		if (Object.keys(data).includes('error')) {
 
-			setuserInfo(data.info);
+			setError(data?.error_code);
+			setError2(data?.error2);
+			go("error")
 
 		} else {
-			setError(data.error_code);
-			setError2(data.error2);
-			setActiveStory("error");
-			setActivePanel("home");
+			setuserInfo(data?.info);
 		}
+		return data
 	}
 
 	async function getCUM() {
 
-		let d = {
+		let sendData = {
 			wallet: address,
 			telegram_id: userTG.id,
 			g_recaptcha_response: recaptcha
 		}
-		const data = await new API().Post("api.wallet.check",d);
-		// key();
-		if (!data.error) {
+		const data = await new API().Post("api.wallet.check",sendData);
 
-			usersGet(address)
+		if (Object.keys(data).includes('error')) {
+			let textError = 'Airdrop error';
+			switch (data?.error_code) {
+				case 1006:
+					textError = "Telegram account has already been used";
+					break;
+				case 1007:
+					textError = "You are not subscribed to social networks";
+					break;
+				case 1008:
+					textError = "Captcha error";
+					break;
+				case 1010:
+					textError = "Airdrop done";
+					break;
+				default:
+					setError(data?.error_code);
+					setError2(data?.error2);
+					go("error");
+					break;
+			}
 
+			setSnackbar(<Snackbar
+				onClose={() => setSnackbar(null)}
+				before={<Avatar size={24} style={{ background: 'var(--destructive)' }}><Icon24Dismiss fill="#fff" width={14} height={14} /></Avatar>}
+
+			>{textError}</Snackbar>);
+		} else {
+			let data = await usersGet(address);
+			console.log(data);
 			setSnackbar(<Snackbar
 				onClose={() => setSnackbar(null)}
 				before={<Avatar size={24} style={{ background: 'var(--commerce)' }}><Icon24CheckCircleOutline fill="#fff" width={14} height={14} /></Avatar>}
 
-			>Successful AirDrop</Snackbar>)
+			>Successful AirDrop</Snackbar>);
 
-			// setuserInfo(data.info);
-
-		} else if (data.error_code === 1006) {
-			setSnackbar(<Snackbar
-				onClose={() => setSnackbar(null)}
-				before={<Avatar size={24} style={{ background: 'var(--destructive)' }}><Icon24Dismiss fill="#fff" width={14} height={14} /></Avatar>}
-
-			>Telegram account has already been used</Snackbar>)
-		} else if (data.error_code === 1007) {
-			setSnackbar(<Snackbar
-				onClose={() => setSnackbar(null)}
-				before={<Avatar size={24} style={{ background: 'var(--destructive)' }}><Icon24Dismiss fill="#fff" width={14} height={14} /></Avatar>}
-
-			>You are not subscribed to social networks</Snackbar>)
-		} else if (data.error_code === 1008) {
-			setSnackbar(<Snackbar
-				onClose={() => setSnackbar(null)}
-				before={<Avatar size={24} style={{ background: 'var(--destructive)' }}><Icon24Dismiss fill="#fff" width={14} height={14} /></Avatar>}
-
-			>Captcha error</Snackbar>)
-		} else if (data.error_code === 1010) {
-			setSnackbar(<Snackbar
-				onClose={() => setSnackbar(null)}
-				before={<Avatar size={24} style={{ background: 'var(--destructive)' }}><Icon24Dismiss fill="#fff" width={14} height={14} /></Avatar>}
-
-			>Airdrop done</Snackbar>)
-		} else {
-			setError(data.error_code);
-			setError2(data.error2);
-			setActiveStory("error");
-			setActivePanel("home");
 		}
 	}
 
 
 
 	function onChangeCaptcha(value) {
-		console.log("Captcha value:", value);
 		setrecaptcha(value);
 	}
 
@@ -686,7 +558,6 @@ const App = withAdaptivity(({ viewWidth }) => {
 
 	const onStoryChange = (e) => {
 		setActiveStory(e.currentTarget.dataset.story);
-		setActivePanel(e.currentTarget.dataset.story);
 	};
 
 
@@ -923,20 +794,8 @@ const App = withAdaptivity(({ viewWidth }) => {
 
 										</div>
 
-										{/*<Title level="2" weight="regular" style={{margin: 12,textAlign: 'center'}}>*/}
-										{/*	456 онлайн*/}
-										{/*</Title>*/}
-										{userData ?
 
 
-											<small style={{opacity: '.2'}}>
-
-												f {version}.v
-												b {userData.version}.v
-											</small>
-											:
-											""
-										}
 									</Group>
 
 									{/*{userData ? userData.user_name === '' ?*/}
