@@ -147,6 +147,7 @@ const App = withAdaptivity(() => {
 	const [priceCUM, setpriceCUM] = useState(null);
 
 	const [twBtn, settwBtn] = useState(false);
+	const [twBtn2, settwBtn2] = useState(false);
 
 	//google cap
 	const [recaptcha, setrecaptcha] = useState(false);
@@ -663,6 +664,10 @@ const App = withAdaptivity(() => {
 				case 1008:
 					textError = "Captcha error";
 					break;
+				case 1009:
+					textError = "Wallet error";
+					resetApp ()
+					break;
 				case 1010:
 					textError = "Airdrop done";
 					break;
@@ -689,6 +694,8 @@ const App = withAdaptivity(() => {
 
 		}
 	}
+
+
 
 
 
@@ -1063,6 +1070,9 @@ const App = withAdaptivity(() => {
 
 										twBtn={twBtn}
 										settwBtn={settwBtn}
+
+										twBtn2={twBtn2}
+										settwBtn2={settwBtn2}
 
 										getCUM={getCUM}
 

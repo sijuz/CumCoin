@@ -15,9 +15,9 @@ import {
 } from "@vkontakte/vkui";
 import {
 	Icon24LogoTwitter,
-	Icon24Send,
+	Icon24Send, Icon28CheckCircleFill,
 	Icon28CopyOutline,
-	Icon28DoorArrowLeftOutline,
+	Icon28DoorArrowLeftOutline, Icon28ErrorCircleOutline,
 	Icon28GiftOutline,
 	Icon28LinkCircleOutline,
 	Icon28LockOpenOutline,
@@ -44,6 +44,7 @@ import {
 import logo from "../img/logo.png";
 import logo2 from "../img/PNG2.png";
 import Reaptcha from "reaptcha";
+import * as moment from "moment";
 
 
 let endairdrop = false;
@@ -98,6 +99,15 @@ const Top = props => (
 						}}>
 						Wait for the end of the airdrop to withdraw CUM to your wallet
 						</p>
+						<div style={{textAlign: "center"}}>
+							<small style={{opacity: '.7'}}>Left until accrual</small>
+
+							<Title level="3" weight="heavy" style={{
+								marginBottom: 0,
+								textAlign: 'center'
+							}}>{moment(1625954786*1000).fromNow()  }</Title>
+						</div>
+
 						<Button size={"l"} stretched before={<Icon28LockOpenOutline/>}
 								disabled={true} onClick={props.getTest}>Pay fee</Button>
 					</div>
@@ -125,44 +135,75 @@ const Top = props => (
 						<p style={{
 							textAlign: 'center'
 						}}>Log in and subscribe to our social networks</p>
+
+
+						<CardGrid size="l">
+							<Card>
+								<Div style={{textAlign: 'center'}}>
+									<Title level="2" weight="heavy" style={{
+										marginBottom: 0,
+										textAlign: 'center',
+										display: "flex", justifyContent: "center", alignItems: "center"
+									}}>Step 1 {props.userTG ? <Icon28CheckCircleFill style={{marginLeft: 12}} /> : <Icon28ErrorCircleOutline fill={"#ffa000"} style={{marginLeft: 12}} />}</Title>
+									<br/>
+
+
+
+									<div className="bot2" style={{marginLeft: 12}}>
+										<TelegramLoginButton dataOnauth={(res) => {
+											props.setuserTG(res)
+										}} botName="cum_coin_airdrop_bot"/>
+									</div>
+
+
+								</Div>
+							</Card>
+
+							<Card>
+								<Div style={{textAlign: 'center'}}>
+									<Title level="2" weight="heavy" style={{
+										marginBottom: 0,
+										textAlign: 'center',
+										display: "flex", justifyContent: "center", alignItems: "center"
+									}}>Step 2 {props.twBtn2 ?<Icon28CheckCircleFill  style={{marginLeft: 12}} /> : <Icon28ErrorCircleOutline fill={"#ffa000"} style={{marginLeft: 12}} />}</Title>
+									<br/>
+
+									<Button size={"l"} before={<Icon24Send/>} mode="commerce" target="_blank" style={{marginLeft: 12}}
+												href="https://t.me/cumcoinlive" onClick={() => {setTimeout(()=>props.settwBtn2(true),1000)}}>Telegram subscribe</Button>
+
+								</Div>
+							</Card>
+
+							<Card>
+								<Div style={{textAlign: 'center'}}>
+									<Title level="2" weight="heavy" style={{
+										marginBottom: 0,
+										textAlign: 'center',
+										display: "flex", justifyContent: "center", alignItems: "center"
+									}}>Step 3 {props.twBtn ?<Icon28CheckCircleFill  style={{marginLeft: 12}} /> : <Icon28ErrorCircleOutline fill={"#ffa000"} style={{marginLeft: 12}} />}</Title>
+									<br/>
+
+									<Button size={"l"} before={<Icon24LogoTwitter/>} mode="commerce" target="_blank" style={{marginLeft: 12}}
+											href="https://twitter.com/CUMCoinTeam" onClick={() => {setTimeout(()=>props.settwBtn(true),1000)}}>Twitter
+										subscribe</Button>
+
+								</Div>
+							</Card>
+
+
+						</CardGrid>
+
+
 						<div style={{textAlign: "center"}}>
-
-							{/*<TwitterLogin*/}
-							{/*	authCallback={authHandler}*/}
-							{/*	consumerKey={"1"}*/}
-							{/*	consumerSecret={"1"}*/}
-							{/*	requestTokenUrl={"1"}*/}
-							{/*	accessTokenUrl={"1"}*/}
-							{/*/>*/}
-
-
-							{props.userTG ?
-								<Button size={"l"} before={<Icon24Send/>} mode="commerce" target="_blank"
-										href="https://t.me/cumcoinlive">Telegram subscribe</Button>
-								:
-								<div className="bot2">
-									<TelegramLoginButton dataOnauth={(res) => {
-										props.setuserTG(res)
-									}} botName="cum_coin_airdrop_bot"/>
-								</div>
-							}
-
-							{/*<Button size={"l"}   before={<Icon24Send   />} mode="commerce" id="telegramButton">Telegram</Button>*/}
-							<p/>
-
-							<Button size={"l"} before={<Icon24LogoTwitter/>} mode="commerce" target="_blank"
-									href="https://twitter.com/CUMCoinTeam" onClick={() => {setTimeout(()=>props.settwBtn(true),1000)}}>Twitter
-								subscribe</Button>
-							<p/>
-
 
 							<Div style={{display: "flex", justifyContent: "center"}}>
 								<Reaptcha sitekey="6LdNUVUbAAAAAB0IwXlpMFXrwMCsslJoqUR12jW7" onVerify={props.onChangeCaptcha} theme='dark' />
 							</Div>
+
 							{props.ConnectedWEB3 ?
 
 								<Button size={"l"} stretched before={<Icon28GiftOutline/>}
-										disabled={!(props.userTG && props.twBtn && props.recaptcha)} onClick={props.getCUM}>Get 100
+										disabled={!(props.userTG && props.twBtn && props.recaptcha && props.twBtn2)} onClick={props.getCUM}>Get 100
 									CUM</Button>
 								:
 								<Button size={"l"} stretched before={<Icon28LockOpenOutline/>}
