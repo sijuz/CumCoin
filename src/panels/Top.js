@@ -76,6 +76,18 @@ const Top = props => (
 
 			<Div>
 				{props.userInfo ? props.userInfo.airdrop_balance >= 10000000000 ?
+					props.claimUser ?
+						<div>
+							<Title level="2" weight="heavy" style={{
+								marginBottom: 0,
+								textAlign: 'center'
+							}}>You have already received your coins</Title>
+							<Div>
+								<Button size={"l"} stretched before={<Icon28LinkCircleOutline/>} target="_blank"
+										href="https://exchange.pancakeswap.finance/#/swap?outputCurrency=0xeE658f96F8D45085a9eC6Cb9c917d4875EF28987">Buy CUM</Button>
+							</Div>
+						</div>
+						:
 					<div>
 						<Title level="2" weight="heavy" style={{
 							marginBottom: 0,
@@ -87,7 +99,7 @@ const Top = props => (
 						Wait for the end of the airdrop to withdraw CUM to your wallet
 						</p>
 						<Button size={"l"} stretched before={<Icon28LockOpenOutline/>}
-								disabled>Pay fee</Button>
+								disabled={true} onClick={props.getTest}>Pay fee</Button>
 					</div>
 					:
 					endairdrop ?

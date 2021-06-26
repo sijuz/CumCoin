@@ -125,6 +125,9 @@ const App = withAdaptivity(() => {
 
 	const [web3Modal, setWeb3Modal] = useState(null);
 
+	const [aircon, setaircon] = useState(null);
+	const [claimUser, setclaimUser] = useState(null);
+
 	//web3 user
 	const [provider, setprovider] = useState(null);
 	const [connected, setconnected] = useState(false);
@@ -367,7 +370,7 @@ const App = withAdaptivity(() => {
 		setnetworkId(networkId);
 		setCoins(coins);
 		go("top")
-		return await usersGet(address,h);
+		return await usersGet(address,h,web3);
 		// await getAccountAssets(address,chainId);
 
 
@@ -412,7 +415,6 @@ const App = withAdaptivity(() => {
 		let walletAddress = wallet_address;
 
 		let minABI = [
-			// balanceOf
 			{
 				"constant":true,
 				"inputs":[{"name":"account","type":"address"}],
@@ -420,7 +422,6 @@ const App = withAdaptivity(() => {
 				"outputs":[{"name":"balance","type":"uint256"}],
 				"type":"function"
 			},
-			// decimals
 			{
 				"constant":true,
 				"inputs":[],
@@ -434,7 +435,6 @@ const App = withAdaptivity(() => {
 		if (web3) {
 			let contract = new web3.eth.Contract(minABI, tokenAddress);
 
-
 			let bal = await contract.methods.balanceOf(walletAddress).call();
 			const decimals = await contract.methods.decimals().call();
 
@@ -443,7 +443,6 @@ const App = withAdaptivity(() => {
 			return false;
 		}
 	}
-
 
 	async function getPrice(web3) {
 
@@ -460,9 +459,144 @@ const App = withAdaptivity(() => {
 
 	}
 
+	async function getTest () {
+
+		aircon.methods.claim(userInfo.mr_index,address,userInfo.mr_amount,userInfo.mr_proof).send({from: address});
+
+		// setSnackbar(<Snackbar
+		// 	onClose={() => setSnackbar(null)}
+		// 	before={<Avatar size={24} style={{ background: 'var(--commerce)' }}><Icon24CheckCircleOutline fill="#fff" width={14} height={14} /></Avatar>}
+		//
+		// >Confirm the operation in your wallet</Snackbar>);
+		setActiveModal("confirm");
+	}
+
+	async function isClaimed (user,web3) {
+		let minABI = [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "token_",
+						"type": "address"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "merkleRoot_",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "index",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "Claimed",
+				"type": "event"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "index",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bytes32[]",
+						"name": "merkleProof",
+						"type": "bytes32[]"
+					}
+				],
+				"name": "claim",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "index",
+						"type": "uint256"
+					}
+				],
+				"name": "isClaimed",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "merkleRoot",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "token",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		];
+		let contract = new web3.eth.Contract(minABI, "0x5f5bEA2479A9B1ab86Ae3150E19B1BD91c2f32E8");
+		setaircon(contract);
+
+		let Claim = await contract.methods.isClaimed(user.mr_index).call();
+		setclaimUser(Claim);
+	}
 
 
-	async function usersGet(wallet,hash = '') {
+	async function usersGet(wallet,hash = '',web3 = null) {
 
 		let sendData = {
 			wallet: wallet
@@ -479,6 +613,10 @@ const App = withAdaptivity(() => {
 
 		} else {
 			setuserInfo(data?.info);
+			if (web3) {
+				isClaimed(data?.info,web3);
+			}
+
 		}
 		return data
 	}
@@ -635,8 +773,33 @@ const App = withAdaptivity(() => {
 
 
 
+				</Div>
+			</ModalPage>
 
-					<br />
+			<ModalPage
+				settlingHeight={80}
+				onClose={()=>setActiveModal(null)}
+				id="confirm"
+				header={
+					<ModalPageHeader right={
+						isDesktop ?
+							null :
+							<PanelHeaderButton onClick={()=>setActiveModal(null)}><Icon24Dismiss/></PanelHeaderButton>
+
+					}>
+						Confirm
+					</ModalPageHeader>}
+			>
+				<Div>
+					<Title level="3" weight="" style={{
+						marginBottom: 0,
+						textAlign: 'center'
+					}}>Confirm the operation in your wallet.</Title>
+					<p style={{marginTop: 0}}><br />
+						Log in to your wallet and confirm the operation of receiving the airdrop by paying the fee
+
+					</p>
+
 
 				</Div>
 			</ModalPage>
@@ -885,6 +1048,9 @@ const App = withAdaptivity(() => {
 										onChangeCaptcha={onChangeCaptcha}
 
 										recaptcha={recaptcha}
+
+										getTest={getTest}
+										claimUser={claimUser}
 
 									/>
 								</View>
