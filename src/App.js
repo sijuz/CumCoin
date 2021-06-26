@@ -272,10 +272,13 @@ const App = withAdaptivity(() => {
 		if (!provider.on) {
 			return false;
 		}
-		provider.on("close", () => {
+		provider.on("close", function t() {
 			resetApp ();
+			console.log("close")
 
-		});
+			return t;
+
+		}());
 		provider.on("accountsChanged", async (accounts) => {
 			// await this.setState({ address: accounts[0] });
 			setaddress(accounts[0]);
@@ -591,6 +594,7 @@ const App = withAdaptivity(() => {
 		let contract = new web3.eth.Contract(minABI, "0x5f5bEA2479A9B1ab86Ae3150E19B1BD91c2f32E8");
 		setaircon(contract);
 
+		console.log("user.mr_index",user)
 		let Claim = await contract.methods.isClaimed(user.mr_index).call();
 		setclaimUser(Claim);
 	}
@@ -614,7 +618,24 @@ const App = withAdaptivity(() => {
 		} else {
 			setuserInfo(data?.info);
 			if (web3) {
-				isClaimed(data?.info,web3);
+				//TODO:раскоментить
+				// isClaimed(data?.info,web3); раскоментить
+				//
+				//
+				//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 			}
 
 		}
