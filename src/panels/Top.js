@@ -107,6 +107,7 @@ const Top = props => (
 								textAlign: 'center'
 							}}>{moment(1625954786*1000).fromNow()  }</Title>
 						</div>
+						<br />
 
 						<Button size={"l"} stretched before={<Icon28LockOpenOutline/>}
 								disabled={true} onClick={props.getTest}>Pay fee</Button>
