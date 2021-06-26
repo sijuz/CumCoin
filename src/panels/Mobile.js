@@ -65,7 +65,15 @@ const Top = props => (
 							<Title level="1" weight="heavy" style={{
 								marginBottom: 0,
 								textAlign: 'center'
-							}}>{props.userInfo ? (props.userInfo.airdrop_balance / Math.pow(10, 8)).toFixed(0) : 0} CUM</Title>
+							}}>
+								{props.userInfo ?
+									(props.userInfo.airdrop_balance / Math.pow(10, 8)).toFixed(0) + " CUM " +
+									"("+(props.priceCUM * (props.userInfo.airdrop_balance / Math.pow(10, 8)).toFixed(0)).toFixed(2) + " $)"
+									: 0 + " CUM"
+								}
+
+
+							</Title>
 
 							<small style={{opacity: '.7'}}>Left until accrual</small>
 
