@@ -106,7 +106,7 @@ const App = withAdaptivity(() => {
 	const hasHeader = platform !== VKCOM;
 
 	// Стейт приложения
-	const [activeStory, setActiveStory] = useState('ref');
+	const [activeStory, setActiveStory] = useState('top');
 	const [popout, setPopout] = useState(<ScreenSpinner size='large' />);
 	const [activeModal,setActiveModal] = useState(null);
 	const [snackbar,setSnackbar] = useState(null);
@@ -411,7 +411,8 @@ const App = withAdaptivity(() => {
 		setaddress(null);
 		setchainId(null);
 		setnetworkId(null);
-		go("ref");
+		setuserInfo(null);
+		// go("ref");
 	}
 
 	async function balanceToken(web3,contract_address,wallet_address,fix = 4) {
@@ -862,94 +863,130 @@ const App = withAdaptivity(() => {
 									<Group >
 
 											<div>
-												<CardGrid size="l">
-													<Card>
-														<Div style={{textAlign: 'center'}}>
-															<small style={{opacity: '.7'}}>AirDrop balance</small>
-															<Title level="1" weight="heavy" style={{
-																marginBottom: 0,
-																textAlign: 'center'
-															}}>
-																{userInfo ?
-																	(userInfo.airdrop_balance / Math.pow(10, 8)).toFixed(0) + " CUM " +
-																	"("+(priceCUM * (userInfo.airdrop_balance / Math.pow(10, 8)).toFixed(0)).toFixed(2) + " $)"
-																	: 0 + " CUM"
-																}
-															</Title>
-
-															<small style={{opacity: '.7'}}>Left until accrual</small>
-
-															<Title level="3" weight="heavy" style={{
-																marginBottom: 0,
-																textAlign: 'center'
-															}}>{moment(1625954786*1000).fromNow()  }</Title>
-
-
-														</Div>
-
-													</Card>
-													{/*<Card>*/}
-													{/*	<Div style={{textAlign: 'center'}}>*/}
-													{/*		<small style={{opacity: '.7'}}>Your BEP20 address</small>*/}
-													{/*		<br />*/}
-													{/*		<Title level="1" weight="heavy" style={{*/}
-													{/*			marginBottom: 0,*/}
-													{/*			textAlign: 'center'*/}
-													{/*		}}>0xa7...F92F</Title>*/}
-
-													{/*	</Div>*/}
-
-													{/*</Card>*/}
-
-
-													<Card>
-														<Cell
-															description="BEP20"
-															onClick={()=>setActiveModal("wallet")}
-															after={address ? address.substr(0, 4)+"..."+address.substr(address.length-4, address.length-1) : ""}
-															before={
-																<Avatar src={"https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/MetaMask_Fox.svg/1200px-MetaMask_Fox.svg.png"} size={28} />
-															}
-														>
-															Your address
-														</Cell>
-													</Card>
-													<Card>
-														<Cell
-															description={"CUM/BUSD"}
-															target="_blank"
-															href="https://www.dextools.io/app/pancakeswap/pair-explorer/0xf84948cf77fd0a912e70583becbf64b6161e2a38"
-															after={priceCUM > 0 ? "$" + priceCUM : "$0.00000000"}
-															before={
-																<Avatar src={logo2} size={28} />
-															}
-														>
-															Price
-														</Cell>
-													</Card>
-													<Card>
-														{Coins.length > 0 ? Coins.map((coin,key)=> (
-															<Cell
-																key={key}
-																description={coin.name === "CUM" ? (parseFloat(coin.price)).toFixed(8) + " $" : (parseFloat(coin.price)).toFixed(2) + " $"}
-																after={
-																	<div style={{display: "flex", flexDirection: "column", alignItems: "flex-end", justifyContent: "center"}}>
-																		<div>{coin.balance + " " + coin.name}</div>
-																		<div style={{opacity: '.7'}}>{(parseFloat(coin.price) * parseFloat(coin.balance)).toFixed(2) + " $" }</div>
-																	</div>
+												{userInfo ?
+													<CardGrid size="l">
+														<Card>
+															<Div style={{textAlign: 'center'}}>
+																<small style={{opacity: '.7'}}>AirDrop balance</small>
+																<Title level="1" weight="heavy" style={{
+																	marginBottom: 0,
+																	textAlign: 'center'
+																}}>
+																	{userInfo ?
+																		(userInfo.airdrop_balance / Math.pow(10, 8)).toFixed(0) + " CUM " +
+																		"(" + (priceCUM * (userInfo.airdrop_balance / Math.pow(10, 8)).toFixed(0)).toFixed(2) + " $)"
+																		: 0 + " CUM"
 																	}
+																</Title>
+
+																<small style={{opacity: '.7'}}>Left until
+																	accrual</small>
+
+																<Title level="3" weight="heavy" style={{
+																	marginBottom: 0,
+																	textAlign: 'center'
+																}}>{moment(1625954786 * 1000).fromNow()}</Title>
+
+
+															</Div>
+
+														</Card>
+														{/*<Card>*/}
+														{/*	<Div style={{textAlign: 'center'}}>*/}
+														{/*		<small style={{opacity: '.7'}}>Your BEP20 address</small>*/}
+														{/*		<br />*/}
+														{/*		<Title level="1" weight="heavy" style={{*/}
+														{/*			marginBottom: 0,*/}
+														{/*			textAlign: 'center'*/}
+														{/*		}}>0xa7...F92F</Title>*/}
+
+														{/*	</Div>*/}
+
+														{/*</Card>*/}
+
+
+														<Card>
+															<Cell
+																description="BEP20"
+																onClick={() => setActiveModal("wallet")}
+																after={address ? address.substr(0, 4) + "..." + address.substr(address.length - 4, address.length - 1) : ""}
 																before={
-																	<Avatar src={coin.ico} size={28} />
+																	<Avatar
+																		src={"https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/MetaMask_Fox.svg/1200px-MetaMask_Fox.svg.png"}
+																		size={28}/>
 																}
 															>
-																{coin.label}
+																Your address
 															</Cell>
-														)) : null}
+														</Card>
+														<Card>
+															<Cell
+																description={"CUM/BUSD"}
+																target="_blank"
+																href="https://www.dextools.io/app/pancakeswap/pair-explorer/0xf84948cf77fd0a912e70583becbf64b6161e2a38"
+																after={priceCUM > 0 ? "$" + priceCUM : "$0.00000000"}
+																before={
+																	<Avatar src={logo2} size={28}/>
+																}
+															>
+																Price
+															</Cell>
+														</Card>
+														<Card>
+															{Coins.length > 0 ? Coins.map((coin, key) => (
+																<Cell
+																	key={key}
+																	description={coin.name === "CUM" ? (parseFloat(coin.price)).toFixed(8) + " $" : (parseFloat(coin.price)).toFixed(2) + " $"}
+																	after={
+																		<div style={{
+																			display: "flex",
+																			flexDirection: "column",
+																			alignItems: "flex-end",
+																			justifyContent: "center"
+																		}}>
+																			<div>{coin.balance + " " + coin.name}</div>
+																			<div
+																				style={{opacity: '.7'}}>{(parseFloat(coin.price) * parseFloat(coin.balance)).toFixed(2) + " $"}</div>
+																		</div>
+																	}
+																	before={
+																		<Avatar src={coin.ico} size={28}/>
+																	}
+																>
+																	{coin.label}
+																</Cell>
+															)) : null}
 
-													</Card>
+														</Card>
 
 
-												</CardGrid>
+													</CardGrid>
+													:
+													<CardGrid size="l">
+														<Card>
+															<Div style={{textAlign: 'center'}}>
+																<small style={{opacity: '.7'}}>AirDrop balance</small>
+																<Title level="1" weight="heavy" style={{
+																	marginBottom: 0,
+																	textAlign: 'center'
+																}}>
+																	0 CUM
+																</Title>
+
+																<small style={{opacity: '.7'}}>Left until
+																	accrual</small>
+
+																<Title level="3" weight="heavy" style={{
+																	marginBottom: 0,
+																	textAlign: 'center'
+																}}>{moment(1625954786 * 1000).fromNow()}</Title>
+
+
+															</Div>
+
+														</Card>
+													</CardGrid>
+												}
 
 
 
@@ -1089,6 +1126,8 @@ const App = withAdaptivity(() => {
 										getTest={getTest}
 										claimUser={claimUser}
 
+										web3Modal={web3Modal}
+
 									/>
 								</View>
 								<View id="home" activePanel="home">
@@ -1100,6 +1139,8 @@ const App = withAdaptivity(() => {
 
 										onStoryChange={onStoryChange}
 										resetApp={resetApp}
+
+										userInfo={userInfo}
 
 									/>
 
@@ -1118,6 +1159,8 @@ const App = withAdaptivity(() => {
 
 										web3Modal={web3Modal}
 										setActiveModal={setActiveModal}
+
+										userInfo={userInfo}
 
 
 
@@ -1145,6 +1188,8 @@ const App = withAdaptivity(() => {
 
 										setActiveModal={setActiveModal}
 										priceCUM={priceCUM}
+
+
 
 
 

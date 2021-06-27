@@ -26,7 +26,7 @@ import {
 	Icon28BrainOutline,
 	Icon28BriefcaseOutline, Icon28CheckCircleFill, Icon28ClockCircleFillGray, Icon28DoorArrowLeftOutline,
 	Icon28EmployeeOutline,
-	Icon28GiftOutline, Icon28LinkCircleOutline,
+	Icon28GiftOutline, Icon28LinkCircleOutline, Icon28LockOpenOutline,
 	Icon28LogoVk,
 	Icon28MoneyCircleOutline,
 	Icon28MoneyHistoryBackwardOutline,
@@ -64,9 +64,15 @@ const Home = props => (
 			separator={props.isDesktop}
 			right={
 				props.isDesktop ?
+					props.userInfo ?
 						<Button
 							mode="outline"
-							 size="l"  before={<Icon28DoorArrowLeftOutline  />} onClick={props.resetApp}>Log out</Button>
+							size="l"  before={<Icon28DoorArrowLeftOutline  />} onClick={props.resetApp}>Log out</Button>
+						:
+						<Button
+							mode="outline"
+							size="l"  before={<Icon28LockOpenOutline  />} onClick={()=>props.loginWEB3(props.web3Modal)}>Connect</Button>
+
 					:
 					null
 			}

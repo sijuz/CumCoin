@@ -57,87 +57,132 @@ const Top = props => (
 		</PanelHeader>
 		<Group >
 
+
 			<div>
-				<CardGrid size="l">
-					<Card>
-						<Div style={{textAlign: 'center'}}>
-							<small style={{opacity: '.7'}}>AirDrop balance</small>
-							<Title level="1" weight="heavy" style={{
-								marginBottom: 0,
-								textAlign: 'center'
-							}}>
-								{props.userInfo ?
-									(props.userInfo.airdrop_balance / Math.pow(10, 8)).toFixed(0) + " CUM " +
-									"("+(props.priceCUM * (props.userInfo.airdrop_balance / Math.pow(10, 8)).toFixed(0)).toFixed(2) + " $)"
-									: 0 + " CUM"
-								}
+				{props.userInfo ?
+					<CardGrid size="l">
+						<Card>
+							<Div style={{textAlign: 'center'}}>
+								<small style={{opacity: '.7'}}>AirDrop balance</small>
+								<Title level="1" weight="heavy" style={{
+									marginBottom: 0,
+									textAlign: 'center'
+								}}>
+									{props.userInfo ?
+										(props.userInfo.airdrop_balance / Math.pow(10, 8)).toFixed(0) + " CUM " +
+										"(" + (props.priceCUM * (props.userInfo.airdrop_balance / Math.pow(10, 8)).toFixed(0)).toFixed(2) + " $)"
+										: 0 + " CUM"
+									}
 
 
-							</Title>
+								</Title>
 
-							<small style={{opacity: '.7'}}>Left until accrual</small>
+								<small style={{opacity: '.7'}}>Left until accrual</small>
 
-							<Title level="3" weight="heavy" style={{
-								marginBottom: 0,
-								textAlign: 'center'
-							}}>{moment(1625954786*1000).fromNow()  }</Title>
+								<Title level="3" weight="heavy" style={{
+									marginBottom: 0,
+									textAlign: 'center'
+								}}>{moment(1625954786 * 1000).fromNow()}</Title>
 
-						</Div>
+							</Div>
 
-					</Card>
-					<Card>
-						<Cell
-							description="BEP20"
-							onClick={()=>props.setActiveModal("wallet")}
-							after={props.address ? props.address.substr(0, 4)+"..."+props.address.substr(props.address.length-4, props.address.length-1) : ""}
-							before={
-								<Avatar src={"https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/MetaMask_Fox.svg/1200px-MetaMask_Fox.svg.png"} size={28} />
-							}
-						>
-							Your address
-						</Cell>
-					</Card>
-					<Card>
-						<Cell
-							description={"CUM/BUSD"}
-							target="_blank"
-							href="https://www.dextools.io/app/pancakeswap/pair-explorer/0xf84948cf77fd0a912e70583becbf64b6161e2a38"
-							after={props.priceCUM > 0 ? "$" + props.priceCUM : "$0.00000000"}
-							before={
-								<Avatar src={logo2} size={28} />
-							}
-						>
-							Price
-						</Cell>
-					</Card>
-					<Card>
-						{props.Coins.length > 0 ? props.Coins.map((coin,key)=> (
+						</Card>
+						<Card>
 							<Cell
-								key={key}
-								description={coin.name === "CUM" ? (parseFloat(coin.price)).toFixed(8) + " $" : (parseFloat(coin.price)).toFixed(2) + " $"}
-								after={
-									<div style={{display: "flex", flexDirection: "column", alignItems: "flex-end", justifyContent: "center"}}>
-										<div>{coin.balance + " " + coin.name}</div>
-										<div style={{opacity: '.7'}}>{(parseFloat(coin.price) * parseFloat(coin.balance)).toFixed(2) + " $" }</div>
-									</div>
-								}
+								description="BEP20"
+								onClick={() => props.setActiveModal("wallet")}
+								after={props.address ? props.address.substr(0, 4) + "..." + props.address.substr(props.address.length - 4, props.address.length - 1) : ""}
 								before={
-									<Avatar src={coin.ico} size={28} />
+									<Avatar
+										src={"https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/MetaMask_Fox.svg/1200px-MetaMask_Fox.svg.png"}
+										size={28}/>
 								}
 							>
-								{coin.label}
+								Your address
 							</Cell>
-						)) : null}
+						</Card>
+						<Card>
+							<Cell
+								description={"CUM/BUSD"}
+								target="_blank"
+								href="https://www.dextools.io/app/pancakeswap/pair-explorer/0xf84948cf77fd0a912e70583becbf64b6161e2a38"
+								after={props.priceCUM > 0 ? "$" + props.priceCUM : "$0.00000000"}
+								before={
+									<Avatar src={logo2} size={28}/>
+								}
+							>
+								Price
+							</Cell>
+						</Card>
+						<Card>
+							{props.Coins.length > 0 ? props.Coins.map((coin, key) => (
+								<Cell
+									key={key}
+									description={coin.name === "CUM" ? (parseFloat(coin.price)).toFixed(8) + " $" : (parseFloat(coin.price)).toFixed(2) + " $"}
+									after={
+										<div style={{
+											display: "flex",
+											flexDirection: "column",
+											alignItems: "flex-end",
+											justifyContent: "center"
+										}}>
+											<div>{coin.balance + " " + coin.name}</div>
+											<div
+												style={{opacity: '.7'}}>{(parseFloat(coin.price) * parseFloat(coin.balance)).toFixed(2) + " $"}</div>
+										</div>
+									}
+									before={
+										<Avatar src={coin.ico} size={28}/>
+									}
+								>
+									{coin.label}
+								</Cell>
+							)) : null}
 
-					</Card>
+						</Card>
 
 
-				</CardGrid>
+					</CardGrid>
+					:
+					<CardGrid size="l">
+						<Card>
+							<Div style={{textAlign: 'center'}}>
+								<small style={{opacity: '.7'}}>AirDrop balance</small>
+								<Title level="1" weight="heavy" style={{
+									marginBottom: 0,
+									textAlign: 'center'
+								}}>
+									0 CUM
+								</Title>
+
+								<small style={{opacity: '.7'}}>Left until
+									accrual</small>
+
+								<Title level="3" weight="heavy" style={{
+									marginBottom: 0,
+									textAlign: 'center'
+								}}>{moment(1625954786 * 1000).fromNow()}</Title>
+
+
+							</Div>
+
+						</Card>
+					</CardGrid>
+				}
 
 				<Div>
-					<Button
-					mode="outline"
-					size="l" stretched before={<Icon28DoorArrowLeftOutline  />} onClick={props.resetApp}>Log out</Button>
+					{
+						props.userInfo ?
+							<Button
+								mode="outline"
+								size="l"  before={<Icon28DoorArrowLeftOutline  />} onClick={props.resetApp}>Log out</Button>
+							:
+							<Button
+								mode="outline"
+								size="l"  before={<Icon28LockOpenOutline  />} onClick={()=>props.loginWEB3(props.web3Modal)}>Connect</Button>
+
+
+					}
 				</Div>
 
 

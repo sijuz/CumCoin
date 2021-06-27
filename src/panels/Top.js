@@ -57,9 +57,15 @@ const Top = props => (
 			separator={props.isDesktop}
 			right={
 				props.isDesktop ?
-				<Button
-					mode="outline"
-					size="l"  before={<Icon28DoorArrowLeftOutline  />} onClick={props.resetApp}>Log out</Button>
+					props.userInfo ?
+						<Button
+							mode="outline"
+							size="l"  before={<Icon28DoorArrowLeftOutline  />} onClick={props.resetApp}>Log out</Button>
+						:
+						<Button
+							mode="outline"
+							size="l"  before={<Icon28LockOpenOutline  />} onClick={()=>props.loginWEB3(props.web3Modal)}>Connect</Button>
+
 					:
 					null
 			}
@@ -215,6 +221,84 @@ const Top = props => (
 					</div>
 					:
 					<div>
+						<Title level="2" weight="heavy" style={{
+							marginBottom: 0,
+							textAlign: 'center'
+						}}>To get an airdrop of 10 000 CUM you need to follow these steps:</Title>
+
+
+						<p style={{
+							textAlign: 'center'
+						}}>Log in and subscribe to our social networks</p>
+
+
+						<CardGrid size="l">
+							<Card>
+								<Div style={{textAlign: 'center'}}>
+									<Title level="2" weight="heavy" style={{
+										marginBottom: 0,
+										textAlign: 'center',
+										display: "flex", justifyContent: "center", alignItems: "center"
+									}}>Step 1 {props.userTG ? <Icon28CheckCircleFill style={{marginLeft: 12}} /> : <Icon28ErrorCircleOutline fill={"#ffa000"} style={{marginLeft: 12}} />}</Title>
+									<br/>
+
+
+
+									<div className="bot2" style={{marginLeft: 12}}>
+										<TelegramLoginButton dataOnauth={(res) => {
+											props.setuserTG(res)
+										}} botName="cum_coin_airdrop_bot"/>
+									</div>
+
+
+								</Div>
+							</Card>
+
+							<Card>
+								<Div style={{textAlign: 'center'}}>
+									<Title level="2" weight="heavy" style={{
+										marginBottom: 0,
+										textAlign: 'center',
+										display: "flex", justifyContent: "center", alignItems: "center"
+									}}>Step 2 {props.twBtn2 ?<Icon28CheckCircleFill  style={{marginLeft: 12}} /> : <Icon28ErrorCircleOutline fill={"#ffa000"} style={{marginLeft: 12}} />}</Title>
+									<br/>
+
+									<Button size={"l"} before={<Icon24Send/>} mode="commerce" target="_blank" style={{marginLeft: 12}}
+											href="https://t.me/cumcoinlive" onClick={() => {setTimeout(()=>props.settwBtn2(true),1000)}}>Telegram subscribe</Button>
+
+								</Div>
+							</Card>
+
+							<Card>
+								<Div style={{textAlign: 'center'}}>
+									<Title level="2" weight="heavy" style={{
+										marginBottom: 0,
+										textAlign: 'center',
+										display: "flex", justifyContent: "center", alignItems: "center"
+									}}>Step 3 {props.twBtn ?<Icon28CheckCircleFill  style={{marginLeft: 12}} /> : <Icon28ErrorCircleOutline fill={"#ffa000"} style={{marginLeft: 12}} />}</Title>
+									<br/>
+
+									<Button size={"l"} before={<Icon24LogoTwitter/>} mode="commerce" target="_blank" style={{marginLeft: 12}}
+											href="https://twitter.com/CUMCoinTeam" onClick={() => {setTimeout(()=>props.settwBtn(true),1000)}}>Twitter
+										subscribe</Button>
+
+								</Div>
+							</Card>
+
+
+						</CardGrid>
+
+
+						<div style={{textAlign: "center"}}>
+
+							<Div style={{display: "flex", justifyContent: "center"}}>
+								<Reaptcha sitekey="6LdNUVUbAAAAAB0IwXlpMFXrwMCsslJoqUR12jW7" onVerify={props.onChangeCaptcha} theme='dark' />
+							</Div>
+
+								<Button size={"l"} stretched before={<Icon28LockOpenOutline/>}
+										onClick={()=>props.loginWEB3(props.web3Modal)}>Unlock Wallet</Button>
+
+						</div>
 
 					</div>
 				}
@@ -252,12 +336,19 @@ const Top = props => (
 				<br />
 				<Input type="text" value={"https://app.cumcointeam.finance#"+ (props.userInfo ? props.userInfo.id : 0)} align="center" />
 			<br />
-			<CopyToClipboard text={"https://app.cumcointeam.finance#"+ (props.userInfo ? props.userInfo.id : 0)}
-							 onCopy={props.onCopy}>
-				<Button
-					mode="outline"
-					size="l" stretched before={<Icon28CopyOutline  />}>{props.copyText} Link</Button>
-			</CopyToClipboard>
+				{props.userInfo ?
+					<CopyToClipboard
+						text={"https://app.cumcointeam.finance#" + (props.userInfo ? props.userInfo.id : 0)}
+						onCopy={props.onCopy}>
+						<Button
+							mode="outline"
+							size="l" stretched before={<Icon28CopyOutline/>}>{props.copyText} Link</Button>
+					</CopyToClipboard>
+					:
+					<Button
+						mode="outline"
+						size="l" stretched before={<Icon28LockOpenOutline/>} onClick={()=>props.loginWEB3(props.web3Modal)}>Unlock Wallet</Button>
+				}
 				<br />
 				<div style={{display: "flex", justifyContent: "space-between", width: "60%", margin: "0 auto"}}>
 					<FacebookShareButton
