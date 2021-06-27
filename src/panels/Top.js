@@ -130,7 +130,7 @@ const Top = props => (
 						<Title level="2" weight="heavy" style={{
 							marginBottom: 0,
 							textAlign: 'center'
-						}}>To get an airdrop of 100 CUM you need to follow these steps:</Title>
+						}}>To get an airdrop of 10 000 CUM you need to follow these steps:</Title>
 
 
 						<p style={{
@@ -247,7 +247,7 @@ const Top = props => (
 				textAlign: 'center',
 				marginBottom: 0,
 				paddingBottom: 0
-			}}>Invite people to airdrop with your referral link and get 50 CUM for peer referral to app balance</p>
+			}}>Invite people to airdrop with your referral link and get 15 000 CUM for peer referral to app balance</p>
 
 				<br />
 				<Input type="text" value={"https://app.cumcointeam.finance#"+ (props.userInfo ? props.userInfo.id : 0)} align="center" />
