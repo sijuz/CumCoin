@@ -438,7 +438,7 @@ const Top = props => (
 									Received
 								</p>
 								<Title level="1" weight="semibold" style={{marginBottom: 16}}>
-									{props.userInfo ? props.userInfo.my_refs_count*50 : 0} CUM
+									{props.userInfo ? props.userInfo.my_refs_count*15 : 0}k CUM
 								</Title>
 
 							</div>
