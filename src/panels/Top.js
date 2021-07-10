@@ -47,7 +47,7 @@ import Reaptcha from "reaptcha";
 import * as moment from "moment";
 
 
-let endairdrop = false;
+let endairdrop = true;
 
 
 const Top = props => (

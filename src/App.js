@@ -621,7 +621,7 @@ const App = withAdaptivity(() => {
 			setuserInfo(data?.info);
 			if (web3) {
 				//TODO:раскоментить
-				// isClaimed(data?.info,web3); раскоментить
+				isClaimed(data?.info,web3);
 				//
 				//
 				//
