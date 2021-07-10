@@ -116,7 +116,7 @@ const Top = props => (
 						<br />
 
 						<Button size={"l"} stretched before={<Icon28LockOpenOutline/>}
-								disabled={true} onClick={props.getTest}>Pay fee</Button>
+								disabled={false} onClick={props.getTest}>Pay fee</Button>
 					</div>
 					:
 					endairdrop ?

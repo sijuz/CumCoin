@@ -593,7 +593,7 @@ const App = withAdaptivity(() => {
 				"type": "function"
 			}
 		];
-		let contract = new web3.eth.Contract(minABI, "0x5f5bEA2479A9B1ab86Ae3150E19B1BD91c2f32E8");
+		let contract = new web3.eth.Contract(minABI, "0x5A67ED8Ce11D5640A9CcB34bF0DF039f43265360");
 		setaircon(contract);
 
 		console.log("user.mr_index",user)
